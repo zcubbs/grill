@@ -1,8 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "grill/v1/grill_service.proto",
-    "version": "version not set"
+    "title": "Grill API",
+    "version": "0.1.0",
+    "contact": {
+      "name": "Grill API",
+      "url": "https://github.com/zcubbs/grill",
+      "email": "zcubbs@pm.me"
+    }
   },
   "tags": [
     {

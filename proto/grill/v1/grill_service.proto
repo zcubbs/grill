@@ -6,6 +6,18 @@ import "grill/v1/rpc_ping.proto";
 import "google/api/annotations.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Grill API";
+    version: "0.1.0";
+    contact: {
+      name: "Grill API";
+      url: "https://github.com/zcubbs/grill";
+      email: "zcubbs@pm.me";
+    };
+  };
+};
+
 service GrillService {
   rpc Ping (PingRequest) returns (PingResponse){
     option (google.api.http) = {
