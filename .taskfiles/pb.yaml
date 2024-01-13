@@ -1,0 +1,79 @@
+version: '3'
+
+tasks:
+
+  ############################################################
+  default:
+    desc: Generate protobuf code and manage .proto files
+    cmds:
+      - task: "gen:{{OS}}"
+#      - task: "copy:proto:{{OS}}"
+
+  ############################################################
+  # Iterate over PROTO_DIRS and delete *.pb.go files
+  delete:proto:
+    desc: Delete proto files
+    cmds:
+    - task: delete:proto:{{OS}}
+
+  delete:proto:windows:
+    desc: Delete proto files
+    cmds:
+      - powershell -Command foreach ($dir in $env:PROTO_DIRS) { Remove-Item -Path $dir\*.proto -Force }
+
+  delete:proto:darwin:
+    desc: Delete proto files
+    cmds:
+      - task: delete:proto:linux
+
+  delete:proto:linux:
+    desc: Delete proto files
+    cmds:
+      - cmd: for dir in $(echo $PROTO_DIRS); do rm -f $dir/*.proto; done
+
+  ############################################################
+  # Iterate over PROTO_DIRS and generate *.pb.go files
+  gen:
+    desc: Generate proto code
+    cmds:
+      - task: gen:{{OS}}
+
+  gen:windows:
+    desc: Generate proto code for Windows
+    cmds:
+      - cmd: echo "PROTO_DIR={{.PROTO_DIR}} PROTO_GEN_DIR={{.PROTO_GEN_DIR}}"
+      - cmd: "powershell -ExecutionPolicy Bypass -Command {{.SCRIPTS_DIR}}/protoc/gen_proto.ps1 -ProtoDir {{.PROTO_DIR}} -ProtoGenDir {{.PROTO_GEN_DIR}} -OpenapiGenDir {{.OPENAPI_GEN_DIR}}"
+
+  gen:darwin:
+    desc: Generate proto code for MacOS
+    cmds:
+      - task: gen:linux
+
+  gen:linux:
+    desc: Generate proto code for Linux
+    cmds:
+      - cmd: chmod +x {{.SCRIPTS_DIR}}/protoc/gen_proto.sh
+      - cmd: echo "PROTO_DIR={{.PROTO_DIR}} PROTO_GEN_DIR={{.PROTO_GEN_DIR}} OPENAPI_GEN_DIR={{.OPENAPI_GEN_DIR}}"
+      - cmd: "{{.SCRIPTS_DIR}}/protoc/gen_proto.sh {{.PROTO_DIR}} {{.PROTO_GEN_DIR}} {{.OPENAPI_GEN_DIR}}"
+
+  ############################################################
+  # Iterate over PROTO_DIRS and copy *.proto files to pb/
+  copy:proto:
+    desc: Copy proto files
+    cmds:
+      - task: "copy:proto:{{OS}}"
+
+  copy:proto:windows:
+    desc: Copy proto files for Windows
+    cmds:
+      - cmd: powershell -Command foreach ($dir in $env:PROTO_DIRS) { Copy-Item -Path $dir\\*.proto -Destination $dir\\pb\\ -Recurse }
+
+  copy:proto:darwin:
+    desc: Copy proto files
+    cmds:
+      - task: copy:proto:linux
+
+  copy:proto:linux:
+    desc: Copy proto files
+    cmds:
+      - cmd: for dir in $(echo $PROTO_DIRS); do cp -r $dir/*.proto $dir/pb/; done

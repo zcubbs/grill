@@ -1,0 +1,10 @@
+version: '3'
+
+tasks:
+
+  ############################################################
+  default:
+    desc: Generate protobuf code and manage .proto files
+    cmds:
+      - cmd: buf mod update {{.PROTO_DIR}}
+      - cmd: buf generate

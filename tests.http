@@ -1,0 +1,8 @@
+###
+# Ping
+# curl http://localhost:8000/v1/ping
+
+GET http://localhost:8000/v1/ping
+
+###
+

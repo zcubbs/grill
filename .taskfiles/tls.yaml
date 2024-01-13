@@ -1,0 +1,28 @@
+version: '3'
+
+tasks:
+  default:
+    desc: Generate/Update TLS certificates
+    cmds:
+      - task: gen:{{OS}}
+
+  ############################################################
+  # Generate TLS certificates
+  gen:
+    desc: Generate TLS certificates
+    cmds:
+      - task: tls:gen:{{OS}}
+  gen:windows:
+    desc: Generate TLS certificates for Windows
+    cmds:
+      - cmd: powershell -ExecutionPolicy Bypass -Command {{.SCRIPTS_DIR}}/gen.ps1 -outputDir {{.SCRIPTS_DIR}}/generated -certificateConfig {{.SCRIPTS_DIR}}/certificate.conf
+
+  gen:linux:
+    desc: Generate TLS certificates for Linux
+    cmds:
+      - cmd: "{{.SCRIPTS_DIR}}/gen.sh -outputDir {{.SCRIPTS_DIR}}/generated"
+
+  gen:darwin:
+    desc: Generate TLS certificates for MacOS
+    cmds:
+      - task: tls:gen:linux

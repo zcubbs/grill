@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package grill.v1;
+
+import "grill/v1/rpc_ping.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+service GrillService {
+  rpc Ping (PingRequest) returns (PingResponse){
+    option (google.api.http) = {
+      get: "/v1/ping"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Ops"
+      summary: "Ping the server";
+      description: "Ping the server";
+    };
+  }
+}

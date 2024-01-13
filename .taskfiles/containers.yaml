@@ -1,0 +1,32 @@
+version: '3'
+
+tasks:
+  ############################################################
+  default:
+    desc: Run Containers
+    cmds:
+      - task: up
+
+  ############################################################
+  up:
+    desc: Run Containers
+    cmds:
+      - task: up:mailpit
+
+  up:mailpit:
+    desc: Run mailpit
+    dir: "tools/mailpit"
+    cmds:
+      - docker-compose up -d
+
+  ############################################################
+  down:
+    desc: Stop Containers
+    cmds:
+      - task: down:mailpit
+
+  down:mailpit:
+    desc: Stop mailpit
+    dir: "tools/mailpit"
+    cmds:
+      - docker-compose down

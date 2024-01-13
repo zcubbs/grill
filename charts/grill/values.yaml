@@ -1,0 +1,123 @@
+# Default values for chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+revisionHistoryLimit: 1
+restartPolicy: Always
+# nodeSelector: {}
+# tolerations: []
+# affinity: {}
+# imagePullSecrets: []
+ingressRoute: # This is the IngressRoute resource for Traefik
+  enabled: false
+  entryPoints:
+    - web # Replace with your entrypoint name. examples: web, websecure
+server:
+  image:
+    repository: ghcr.io/zcubbs/grill-server
+    pullPolicy: IfNotPresent
+    tag: "0.1.32"
+  services:
+    - match: Host(`api.app.example.com`) && (PathPrefix(`/v1`) || PathPrefix(`/swagger`))
+      name: gateway
+      port: 8000
+      targetPort: 8000
+      protocol: TCP
+      priority: 1
+    - match: Host(`api.app.example.com`)
+      name: grpc
+      port: 9000
+      targetPort: 9000
+      protocol: TCP
+      isH2c: true
+      priority: 2
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # Below are the placeholders for other configurations you may need.
+  # Customize them according to your requirements.
+  persistentVolume:
+    enabled: false
+    # accessModes:
+    #   - ReadWriteOnce
+    # size: 1Gi
+    # storageClass: ""
+    # existingClaim: ""
+  # Security context for the pod
+  securityContext:
+    enabled: false
+    # runAsUser: 1000
+    # fsGroup: 2000
+  # Configure environment variables for the container
+  #  env: []
+
+  # Configure readiness and liveness probes for the container
+  livenessProbe:
+    httpGet:
+      path: /v1/ping
+      port: gateway
+    initialDelaySeconds: 15
+    periodSeconds: 10
+  readinessProbe:
+    httpGet:
+      path: /v1/ping
+      port: gateway
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  config: {}
+###############################################################################
+web:
+  image:
+    repository: ghcr.io/zcubbs/grill-web
+    pullPolicy: IfNotPresent
+    tag: "0.1.32"
+  services:
+    - match: Host(`app.example.com`)
+      name: web
+      port: 80
+      targetPort: 80
+      protocol: TCP
+      priority: 3
+  resources:
+    limits:
+      cpu: 10m
+      memory: 80Mi
+  # requests:
+  #   cpu: 10m
+  #   memory: 80Mi
+  # Below are the placeholders for other configurations you may need.
+  # Customize them according to your requirements.
+  persistentVolume:
+    enabled: false
+    # accessModes:
+    #   - ReadWriteOnce
+    # size: 1Gi
+    # storageClass: ""
+    # existingClaim: ""
+  # Security context for the pod
+  securityContext:
+    enabled: false
+    # runAsUser: 1000
+    # fsGroup: 2000
+  # Configure environment variables for the container
+  #  env: []
+
+  # Configure readiness and liveness probes for the container
+  livenessProbe:
+    httpGet:
+      path: /
+      port: web
+    initialDelaySeconds: 15
+    periodSeconds: 10
+  readinessProbe:
+    httpGet:
+      path: /
+      port: web
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  config: {}
