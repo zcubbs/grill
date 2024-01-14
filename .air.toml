@@ -38,8 +38,9 @@ tmp_dir = "tmp"
   time = false
 
 [misc]
+  # Delete tmp directory on exit
   clean_on_exit = false
 
 [screen]
-  clear_on_rebuild = false
+  clear_on_rebuild = true
   keep_scroll = true

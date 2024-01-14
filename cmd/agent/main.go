@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"github.com/go-co-op/gocron/v2"
 	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
+	"github.com/zcubbs/grill/internal/cmd/ping"
+	"github.com/zcubbs/grill/internal/utils"
 	"time"
 )
 
@@ -32,11 +32,10 @@ func main() {
 	fmt.Println("serverAddr: ", *serverAddr)
 	fmt.Println("token: ", *token)
 
-	conn, err := grpc.Dial(*serverAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	client, err := utils.GetGRPCClient(*serverAddr)
 	if err != nil {
-		panic("failed to connect: " + err.Error())
+		panic("failed to create client: " + err.Error())
 	}
-	client := pb.NewGrillServiceClient(conn)
 
 	err = register(client, *token)
 	if err != nil {
@@ -83,7 +82,7 @@ func newScheduler(client pb.GrillServiceClient, token string) (gocron.Scheduler,
 		),
 		gocron.NewTask(
 			func(c pb.GrillServiceClient, t string) {
-				err := ping(c, t)
+				err := heartbeat(c, t)
 				if err != nil {
 					fmt.Println("ping failed: ", err)
 				}
@@ -104,18 +103,11 @@ func newScheduler(client pb.GrillServiceClient, token string) (gocron.Scheduler,
 	return s, nil
 }
 
-func ping(client pb.GrillServiceClient, token string) error {
+func heartbeat(client pb.GrillServiceClient, token string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 
 	_ = token
 
-	resp, err := client.Ping(ctx, &pb.PingRequest{})
-	if err != nil {
-		return err
-	}
-
-	fmt.Println("ping : ", resp)
-
-	return nil
+	return ping.Ping(client, ctx)
 }
