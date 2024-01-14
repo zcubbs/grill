@@ -14,6 +14,7 @@ on:
       - 'chart/**'
       - 'charts/**'
       - 'scripts/**'
+      - 'gen/openapi/**'
       - '.github/**'
       - 'LICENSE'
       - '.taskfiles/**'
