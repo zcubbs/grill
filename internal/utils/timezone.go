@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/charmbracelet/log"
+	"github.com/zcubbs/log"
 	"time"
 )
 

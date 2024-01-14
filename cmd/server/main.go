@@ -69,9 +69,9 @@ func main() {
 		log.Fatal("failed to create grpc server", "error", err)
 	}
 
-	// Start HTTP Gateway
-	go gs.StartHttpGateway()
-
 	// Start gRPC Server
-	gs.StartGrpcServer()
+	go gs.StartGrpcServer()
+
+	// Start HTTP Gateway
+	gs.StartHttpGateway()
 }
