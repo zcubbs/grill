@@ -25,6 +25,7 @@ includes:
   containers: .taskfiles/containers.yaml
   sqlc: .taskfiles/sqlc.yaml
   mock: .taskfiles/mock.yaml
+  evans: .taskfiles/evans.yaml
 
 tasks:
   default:

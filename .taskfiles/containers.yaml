@@ -12,6 +12,7 @@ tasks:
     desc: Run Containers
     cmds:
       - task: up:mailpit
+      - task: up:postgres
 
   up:mailpit:
     desc: Run mailpit
@@ -19,14 +20,27 @@ tasks:
     cmds:
       - docker-compose up -d
 
+  up:postgres:
+    desc: Run postgres
+    dir: "tools/postgres"
+    cmds:
+      - docker-compose up -d
   ############################################################
   down:
     desc: Stop Containers
     cmds:
       - task: down:mailpit
+      - task: down:postgres
 
   down:mailpit:
     desc: Stop mailpit
     dir: "tools/mailpit"
     cmds:
       - docker-compose down
+
+  down:postgres:
+    desc: Stop postgres
+    dir: "tools/postgres"
+    cmds:
+      - docker-compose down
+

@@ -1,8 +1,10 @@
 package config
 
 const (
-	HttpPort = 8000
-	GrpcPort = 9000
+	DefaultDbName = "postgres"
+	Localhost     = "127.0.0.1"
+	HttpPort      = 8000
+	GrpcPort      = 9000
 )
 
 var (
@@ -20,6 +22,19 @@ var (
 		"grpc_server.tls.enabled":         false,
 		"grpc_server.tls.cert":            "",
 		"grpc_server.tls.key":             "",
+		"database.auto_migration":         true,
+		"database.postgres.enabled":       true,
+		"database.postgres.host":          Localhost,
+		"database.postgres.port":          5432,
+		"database.postgres.username":      "postgres",
+		"database.postgres.password":      "postgres",
+		"database.postgres.db_name":       DefaultDbName,
+		"database.postgres.ssl_mode":      false,
+		"database.postgres.verbose":       false,
+		"database.postgres.cert_pem":      "",
+		"database.postgres.cert_key":      "",
+		"database.postgres.max_conns":     10,
+		"database.postgres.min_conns":     4,
 	}
 
 	envKeys = map[string]string{
@@ -37,5 +52,18 @@ var (
 		"grpc_server.tls.enabled":         "GRPC_SERVER_TLS_ENABLED",
 		"grpc_server.tls.cert":            "GRPC_SERVER_TLS_CERT",
 		"grpc_server.tls.key":             "GRPC_SERVER_TLS_KEY",
+		"database.auto_migration":         "DATABASE_AUTO_MIGRATION",
+		"database.postgres.enabled":       "DATABASE_POSTGRES_ENABLED",
+		"database.postgres.host":          "DATABASE_POSTGRES_HOST",
+		"database.postgres.port":          "DATABASE_POSTGRES_PORT",
+		"database.postgres.username":      "DATABASE_POSTGRES_USERNAME",
+		"database.postgres.password":      "DATABASE_POSTGRES_PASSWORD",
+		"database.postgres.database":      "DATABASE_POSTGRES_DATABASE",
+		"database.postgres.ssl_mode":      "DATABASE_POSTGRES_SSL_MODE",
+		"database.postgres.verbose":       "DATABASE_POSTGRES_VERBOSE",
+		"database.postgres.cert_pem":      "DATABASE_POSTGRES_CERT_PEM",
+		"database.postgres.cert_key":      "DATABASE_POSTGRES_CERT_KEY",
+		"database.postgres.max_conns":     "DATABASE_POSTGRES_MAX_CONNS",
+		"database.postgres.min_conns":     "DATABASE_POSTGRES_MIN_CONNS",
 	}
 )
