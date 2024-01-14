@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package grill.v1;
+
+message AgentPayloadRequest {
+  string token = 1;
+  // other fields...
+}
+
+message AgentPayloadResponse {
+  string status = 1;
+}

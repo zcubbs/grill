@@ -9,6 +9,9 @@ tasks:
       - task: install:golangci-lint
       - task: install:gosec
       - task: install:buf
+      - task: install:sqlc
+      - task: install:migrate
+      - task: install:mockgen
 
   ############################################################
   # Install grpcurl
@@ -98,3 +101,39 @@ tasks:
     desc: Install Buf
     cmds:
       - task: install:buf:darwin
+
+  ############################################################
+  # Install sqlc
+  install:sqlc:
+    desc: Install sqlc
+    cmds:
+      - go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+
+  ############################################################
+  # Install migrate
+  install:migrate:
+    desc: Install migrate
+    cmds:
+      - task: install:migrate:{{OS}}
+
+  install:migrate:windows:
+    desc: Install migrate
+    cmds:
+      - go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+
+  install:migrate:darwin:
+    desc: Install migrate
+    cmds:
+      - brew install golang-migrate
+
+  install:migrate:linux:
+    desc: Install migrate
+    cmds:
+      - task: install:migrate:darwin
+
+  ############################################################
+  # Install mockgen
+  install:mockgen:
+    desc: Install mockgen
+    cmds:
+      - go install go.uber.org/mock/mockgen@latest

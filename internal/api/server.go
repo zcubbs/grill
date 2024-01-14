@@ -9,6 +9,7 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
 	"github.com/zcubbs/grill/internal/config"
+	db "github.com/zcubbs/grill/internal/db/sqlc"
 	"github.com/zcubbs/grill/internal/logger"
 	"github.com/zcubbs/log"
 	"google.golang.org/grpc"
@@ -23,12 +24,15 @@ import (
 
 type Server struct {
 	pb.UnimplementedGrillServiceServer
+
+	store     db.Store
 	cfg       *config.Configuration
 	embedOpts []EmbedAssetsOpts
 }
 
-func NewServer(cfg *config.Configuration, embedOpts ...EmbedAssetsOpts) (*Server, error) {
+func NewServer(store db.Store, cfg *config.Configuration, embedOpts ...EmbedAssetsOpts) (*Server, error) {
 	s := &Server{
+		store:     store,
 		cfg:       cfg,
 		embedOpts: embedOpts,
 	}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package grill.v1;
+
+message ToggleAgentRequest {
+  string id = 1;
+  bool active = 2;
+}
+
+message ToggleAgentResponse {
+  string status = 1;
+}

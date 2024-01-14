@@ -23,6 +23,8 @@ includes:
   lint: .taskfiles/lint.yaml
   tools: .taskfiles/tools.yaml
   containers: .taskfiles/containers.yaml
+  sqlc: .taskfiles/sqlc.yaml
+  mock: .taskfiles/mock.yaml
 
 tasks:
   default:

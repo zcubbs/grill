@@ -1,0 +1,15 @@
+version: '3'
+
+includes:
+  mock: ./mock.yaml
+
+tasks:
+
+  ############################################################
+  default:
+    desc: Generate Sqlc
+    dir: internal/db
+    cmds:
+      - cmd: sqlc generate
+      - task: mock:db
+
