@@ -3,8 +3,9 @@ module github.com/zcubbs/grill
 go 1.21
 
 require (
+	github.com/charmbracelet/log v0.3.1
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be
-	github.com/go-co-op/gocron/v2 v2.1.2
+	github.com/go-co-op/gocron/v2 v2.2.0
 	github.com/golang-migrate/migrate/v4 v4.17.0
 	github.com/google/uuid v1.5.0
 	github.com/gorilla/handlers v1.5.2
@@ -14,10 +15,9 @@ require (
 	github.com/mattes/migrate v3.0.1+incompatible
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.18.2
-	github.com/zcubbs/log v0.1.8
 	github.com/zcubbs/x v0.1.16
 	go.uber.org/mock v0.4.0
-	google.golang.org/genproto/googleapis/api v0.0.0-20240108191215-35c7eff3a6b1
+	google.golang.org/genproto/googleapis/api v0.0.0-20240116215550-a9fa1716bcac
 	google.golang.org/grpc v1.60.1
 	google.golang.org/protobuf v1.32.0
 )
@@ -25,7 +25,6 @@ require (
 require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/charmbracelet/lipgloss v0.9.1 // indirect
-	github.com/charmbracelet/log v0.3.1 // indirect
 	github.com/felixge/httpsnoop v1.0.3 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
@@ -51,7 +50,6 @@ require (
 	github.com/robfig/cron/v3 v3.0.1 // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
-	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.11.0 // indirect
 	github.com/spf13/cast v1.6.0 // indirect
@@ -59,7 +57,6 @@ require (
 	github.com/subosito/gotenv v1.6.0 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	go.uber.org/zap v1.26.0 // indirect
 	golang.org/x/crypto v0.17.0 // indirect
 	golang.org/x/exp v0.0.0-20231219180239-dc181d75b848 // indirect
 	golang.org/x/net v0.19.0 // indirect

@@ -2,9 +2,9 @@ package config
 
 import (
 	"fmt"
+	"github.com/charmbracelet/log"
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
-	"github.com/zcubbs/log"
 	"github.com/zcubbs/x/pretty"
 	"strings"
 	"sync"

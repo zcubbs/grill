@@ -2,7 +2,7 @@ package util
 
 import (
 	"fmt"
-	"github.com/zcubbs/grill/internal/config"
+	"github.com/zcubbs/grill/cmd/server/config"
 )
 
 func getPostgresConnectionString(dbCfg config.PostgresConfig) string {

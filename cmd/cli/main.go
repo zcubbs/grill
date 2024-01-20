@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/zcubbs/grill/internal/cmd"
+	"github.com/charmbracelet/log"
+	"github.com/zcubbs/grill/cmd/cli/cmd"
 )
 
 var (
@@ -17,5 +18,6 @@ func init() {
 }
 
 func main() {
+	log.SetReportTimestamp(false)
 	cmd.Execute()
 }

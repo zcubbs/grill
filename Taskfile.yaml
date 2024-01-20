@@ -15,7 +15,6 @@ includes:
   scan: .taskfiles/scan.yaml
   test: .taskfiles/test.yaml
   tls: .taskfiles/tls.yaml
-  pb: .taskfiles/pb.yaml
   buf: .taskfiles/buf.yaml
   build: .taskfiles/build.yaml
   docker: .taskfiles/docker.yaml

@@ -5,9 +5,9 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"github.com/charmbracelet/log"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/zcubbs/grill/internal/config"
-	"github.com/zcubbs/log"
+	"github.com/zcubbs/grill/cmd/server/config"
 )
 
 func Connect(ctx context.Context, config config.DatabaseConfig) (*pgxpool.Pool, error) {

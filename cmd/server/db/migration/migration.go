@@ -5,14 +5,14 @@ import (
 	"embed"
 	"errors"
 	"fmt"
+	"github.com/charmbracelet/log"
 	mig "github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/golang-migrate/migrate/v4/source/httpfs"
 	_ "github.com/mattes/migrate/source/file"
-	"github.com/zcubbs/grill/internal/config"
-	dbUtil "github.com/zcubbs/grill/internal/db/util"
-	"github.com/zcubbs/log"
+	"github.com/zcubbs/grill/cmd/server/config"
+	dbUtil "github.com/zcubbs/grill/cmd/server/db/util"
 	"net/http"
 )
 

@@ -3,15 +3,14 @@ package main
 import (
 	"context"
 	"flag"
+	"github.com/charmbracelet/log"
+	"github.com/zcubbs/grill/cmd/server/api"
+	"github.com/zcubbs/grill/cmd/server/config"
+	migration "github.com/zcubbs/grill/cmd/server/db/migration"
+	db "github.com/zcubbs/grill/cmd/server/db/sqlc"
+	dbUtil "github.com/zcubbs/grill/cmd/server/db/util"
 	"github.com/zcubbs/grill/gen/openapi"
-	"github.com/zcubbs/grill/internal/api"
-	"github.com/zcubbs/grill/internal/config"
-	migration "github.com/zcubbs/grill/internal/db/migration"
-	db "github.com/zcubbs/grill/internal/db/sqlc"
-	dbUtil "github.com/zcubbs/grill/internal/db/util"
 	"github.com/zcubbs/grill/internal/utils"
-	"github.com/zcubbs/log"
-	"github.com/zcubbs/log/structuredlogger"
 	"os"
 )
 
@@ -41,12 +40,12 @@ func init() {
 	cfg.Date = Date
 
 	if cfg.Debug {
-		log.SetLevel(structuredlogger.DebugLevel)
+		log.SetLevel(log.DebugLevel)
 		config.PrintConfiguration(*cfg)
 	}
 
-	if cfg.DevMode {
-		log.SetFormat(structuredlogger.TextFormat)
+	if !cfg.DevMode {
+		log.SetFormatter(log.JSONFormatter)
 	}
 
 	// Set the timezone

@@ -5,8 +5,8 @@ import (
 	"flag"
 	"fmt"
 	"github.com/go-co-op/gocron/v2"
+	"github.com/zcubbs/grill/cmd/cli/cmd/ping"
 	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
-	"github.com/zcubbs/grill/internal/cmd/ping"
 	"github.com/zcubbs/grill/internal/utils"
 	"time"
 )

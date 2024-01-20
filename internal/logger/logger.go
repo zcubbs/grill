@@ -2,7 +2,7 @@ package logger
 
 import (
 	"context"
-	"github.com/zcubbs/log"
+	"github.com/charmbracelet/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

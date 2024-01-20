@@ -2,10 +2,10 @@ package util
 
 import (
 	"context"
+	"github.com/charmbracelet/log"
+	"github.com/zcubbs/grill/cmd/server/config"
+	db "github.com/zcubbs/grill/cmd/server/db/sqlc"
 	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
-	"github.com/zcubbs/grill/internal/config"
-	db "github.com/zcubbs/grill/internal/db/sqlc"
-	"github.com/zcubbs/log"
 	"github.com/zcubbs/x/password"
 	"github.com/zcubbs/x/random"
 )

@@ -5,7 +5,7 @@ import (
 	"github.com/common-nighthawk/go-figure"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/zcubbs/grill/internal/cmd/ping"
+	"github.com/zcubbs/grill/cmd/cli/cmd/ping"
 	"os"
 )
 
@@ -28,7 +28,7 @@ var (
 
 	versionCmd = &cobra.Command{
 		Use:   "version",
-		Short: "Print the version number of linkup",
+		Short: "Print the version number",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println(getVersion())
@@ -37,7 +37,7 @@ var (
 
 	aboutCmd = &cobra.Command{
 		Use:   "about",
-		Short: "Print the info about linkup",
+		Short: "Print the info about this CLI",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
 			About()
@@ -53,12 +53,13 @@ func Execute() {
 }
 
 func init() {
+	initConfig()
+
 	rootCmd.DisableSuggestions = true
 	rootCmd.AddCommand(versionCmd)
 	rootCmd.AddCommand(aboutCmd)
 	rootCmd.AddCommand(ping.Cmd)
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", fmt.Sprintf("config file (default is $HOME/.%s.yaml)", cliName))
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "verbose output")
 	rootCmd.PersistentFlags().StringP("server", "s", "localhost:9000", "The server address in the format of host:port")
 	_ = viper.BindPFlag("server", rootCmd.PersistentFlags().Lookup("server"))
@@ -100,7 +101,7 @@ func initConfig() {
 		home, err := os.UserHomeDir()
 		cobra.CheckErr(err)
 
-		// Search config in home directory with name ".cobra" (without extension).
+		// Search config in home directory with name ".<config_file_name>" (without extension).
 		viper.AddConfigPath(home)
 		viper.SetConfigType("yaml")
 		viper.SetConfigName(fmt.Sprintf(".%s", cliName))
