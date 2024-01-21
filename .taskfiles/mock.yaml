@@ -12,9 +12,9 @@ tasks:
   ############################################################
   db:
     desc: Mock DB
-    dir: internal
+    dir: cmd/server
     cmds:
-      - mockgen -package mockdb -destination db/mock/store.go {{.GO_PACKAGE}}/internal/db/sqlc Store
+      - mockgen -package mockdb -destination db/mock/store.go {{.GO_PACKAGE}}/cmd/server/db/sqlc Store
 
   ############################################################
   grpc:

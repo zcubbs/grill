@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package grill.v1;
 
-message AgentPayloadRequest {
+message SendAgentPayloadRequest {
   string token = 1;
   // other fields...
 }
 
-message AgentPayloadResponse {
+message SendAgentPayloadResponse {
   string status = 1;
 }

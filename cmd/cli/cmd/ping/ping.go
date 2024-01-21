@@ -1,11 +1,11 @@
 package ping
 
 import (
-	"context"
 	"fmt"
+	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
-	"github.com/zcubbs/grill/internal/utils"
+	vconf "github.com/zcubbs/grill/cmd/cli/config"
+	"github.com/zcubbs/grill/internal/grpcclient"
 	"github.com/zcubbs/x/pretty"
 )
 
@@ -15,25 +15,28 @@ var Cmd = &cobra.Command{
 	Short: "ping server",
 	Long:  `ping API server`,
 	Run: func(cmd *cobra.Command, args []string) {
-		_ = cmd.Flag("verbose").Value.String() == "true"
-		serverAddress := cmd.Flag("server").Value.String()
-		client, err := utils.GetGRPCClient(serverAddress)
-		if err != nil {
-			panic("failed to create client: " + err.Error())
+		verbose := cmd.Flag("verbose").Value.String() == "true"
+		// load config
+		cfg := vconf.Load()
+
+		if verbose {
+			pretty.PrintJson(cfg)
 		}
-		err = Ping(client, cmd.Context())
-		if err != nil {
-			fmt.Println(err)
+
+		if cfg.GrpcClient.Host == "" {
+			fmt.Println("please provide a server address: grill config set grpc-client.host <host>")
+			return
 		}
+
+		client := grpcclient.New(&grpcclient.Config{
+			Host: cfg.GrpcClient.Host,
+		})
+
+		err := client.Ping()
+		if err != nil {
+			log.Error("failed to ping server", "error", err.Error())
+		}
+
+		log.Info("server is up and running")
 	},
-}
-
-func Ping(client pb.GrillServiceClient, ctx context.Context) error {
-	response, err := client.Ping(ctx, &pb.PingRequest{})
-	if err != nil {
-		return err
-	}
-
-	pretty.PrintJson(response)
-	return nil
 }

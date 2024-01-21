@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package grill.v1;
+
+import "grill/v1/user.proto";
+
+message GetUsersRequest {}
+
+message GetUsersResponse {
+  repeated User users = 1;
+}

@@ -11,6 +11,7 @@ import (
 	dbUtil "github.com/zcubbs/grill/cmd/server/db/util"
 	"github.com/zcubbs/grill/gen/openapi"
 	"github.com/zcubbs/grill/internal/utils"
+	"github.com/zcubbs/x/pretty"
 	"os"
 )
 
@@ -30,7 +31,7 @@ func init() {
 	// Load configuration
 	log.Info("loading configuration...")
 	var err error
-	cfg, err = config.Load(*configPath)
+	err = utils.Load(*configPath, &cfg, config.Defaults, config.EnvKeys)
 	if err != nil {
 		log.Fatal("failed to load configuration", "error", err)
 	}
@@ -41,7 +42,7 @@ func init() {
 
 	if cfg.Debug {
 		log.SetLevel(log.DebugLevel)
-		config.PrintConfiguration(*cfg)
+		pretty.PrintJson(cfg)
 	}
 
 	if !cfg.DevMode {

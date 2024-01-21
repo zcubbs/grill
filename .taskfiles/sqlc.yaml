@@ -8,7 +8,7 @@ tasks:
   ############################################################
   default:
     desc: Generate Sqlc
-    dir: internal/db
+    dir: cmd/server/db
     cmds:
       - cmd: sqlc generate
       - task: mock:db

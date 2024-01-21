@@ -27,7 +27,12 @@ type GrillServiceClient interface {
 	ToggleAgent(ctx context.Context, in *ToggleAgentRequest, opts ...grpc.CallOption) (*ToggleAgentResponse, error)
 	GetAgents(ctx context.Context, in *GetAgentsRequest, opts ...grpc.CallOption) (*GetAgentsResponse, error)
 	RegisterAgent(ctx context.Context, in *RegisterAgentRequest, opts ...grpc.CallOption) (*RegisterAgentResponse, error)
-	SendAgentPayload(ctx context.Context, in *AgentPayloadRequest, opts ...grpc.CallOption) (*AgentPayloadResponse, error)
+	SendAgentPayload(ctx context.Context, in *SendAgentPayloadRequest, opts ...grpc.CallOption) (*SendAgentPayloadResponse, error)
+	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
+	LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserResponse, error)
+	LogoutUser(ctx context.Context, in *LogoutUserRequest, opts ...grpc.CallOption) (*LogoutUserResponse, error)
+	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error)
+	GetUsers(ctx context.Context, in *GetUsersRequest, opts ...grpc.CallOption) (*GetUsersResponse, error)
 }
 
 type grillServiceClient struct {
@@ -83,9 +88,54 @@ func (c *grillServiceClient) RegisterAgent(ctx context.Context, in *RegisterAgen
 	return out, nil
 }
 
-func (c *grillServiceClient) SendAgentPayload(ctx context.Context, in *AgentPayloadRequest, opts ...grpc.CallOption) (*AgentPayloadResponse, error) {
-	out := new(AgentPayloadResponse)
+func (c *grillServiceClient) SendAgentPayload(ctx context.Context, in *SendAgentPayloadRequest, opts ...grpc.CallOption) (*SendAgentPayloadResponse, error) {
+	out := new(SendAgentPayloadResponse)
 	err := c.cc.Invoke(ctx, "/grill.v1.GrillService/SendAgentPayload", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *grillServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error) {
+	out := new(CreateUserResponse)
+	err := c.cc.Invoke(ctx, "/grill.v1.GrillService/CreateUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *grillServiceClient) LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserResponse, error) {
+	out := new(LoginUserResponse)
+	err := c.cc.Invoke(ctx, "/grill.v1.GrillService/LoginUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *grillServiceClient) LogoutUser(ctx context.Context, in *LogoutUserRequest, opts ...grpc.CallOption) (*LogoutUserResponse, error) {
+	out := new(LogoutUserResponse)
+	err := c.cc.Invoke(ctx, "/grill.v1.GrillService/LogoutUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *grillServiceClient) RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error) {
+	out := new(RefreshTokenResponse)
+	err := c.cc.Invoke(ctx, "/grill.v1.GrillService/RefreshToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *grillServiceClient) GetUsers(ctx context.Context, in *GetUsersRequest, opts ...grpc.CallOption) (*GetUsersResponse, error) {
+	out := new(GetUsersResponse)
+	err := c.cc.Invoke(ctx, "/grill.v1.GrillService/GetUsers", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -101,7 +151,12 @@ type GrillServiceServer interface {
 	ToggleAgent(context.Context, *ToggleAgentRequest) (*ToggleAgentResponse, error)
 	GetAgents(context.Context, *GetAgentsRequest) (*GetAgentsResponse, error)
 	RegisterAgent(context.Context, *RegisterAgentRequest) (*RegisterAgentResponse, error)
-	SendAgentPayload(context.Context, *AgentPayloadRequest) (*AgentPayloadResponse, error)
+	SendAgentPayload(context.Context, *SendAgentPayloadRequest) (*SendAgentPayloadResponse, error)
+	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
+	LoginUser(context.Context, *LoginUserRequest) (*LoginUserResponse, error)
+	LogoutUser(context.Context, *LogoutUserRequest) (*LogoutUserResponse, error)
+	RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error)
+	GetUsers(context.Context, *GetUsersRequest) (*GetUsersResponse, error)
 }
 
 // UnimplementedGrillServiceServer should be embedded to have forward compatible implementations.
@@ -123,8 +178,23 @@ func (UnimplementedGrillServiceServer) GetAgents(context.Context, *GetAgentsRequ
 func (UnimplementedGrillServiceServer) RegisterAgent(context.Context, *RegisterAgentRequest) (*RegisterAgentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterAgent not implemented")
 }
-func (UnimplementedGrillServiceServer) SendAgentPayload(context.Context, *AgentPayloadRequest) (*AgentPayloadResponse, error) {
+func (UnimplementedGrillServiceServer) SendAgentPayload(context.Context, *SendAgentPayloadRequest) (*SendAgentPayloadResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendAgentPayload not implemented")
+}
+func (UnimplementedGrillServiceServer) CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (UnimplementedGrillServiceServer) LoginUser(context.Context, *LoginUserRequest) (*LoginUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LoginUser not implemented")
+}
+func (UnimplementedGrillServiceServer) LogoutUser(context.Context, *LogoutUserRequest) (*LogoutUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LogoutUser not implemented")
+}
+func (UnimplementedGrillServiceServer) RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefreshToken not implemented")
+}
+func (UnimplementedGrillServiceServer) GetUsers(context.Context, *GetUsersRequest) (*GetUsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUsers not implemented")
 }
 
 // UnsafeGrillServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -229,7 +299,7 @@ func _GrillService_RegisterAgent_Handler(srv interface{}, ctx context.Context, d
 }
 
 func _GrillService_SendAgentPayload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AgentPayloadRequest)
+	in := new(SendAgentPayloadRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -241,7 +311,97 @@ func _GrillService_SendAgentPayload_Handler(srv interface{}, ctx context.Context
 		FullMethod: "/grill.v1.GrillService/SendAgentPayload",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GrillServiceServer).SendAgentPayload(ctx, req.(*AgentPayloadRequest))
+		return srv.(GrillServiceServer).SendAgentPayload(ctx, req.(*SendAgentPayloadRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GrillService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GrillServiceServer).CreateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grill.v1.GrillService/CreateUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GrillServiceServer).CreateUser(ctx, req.(*CreateUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GrillService_LoginUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GrillServiceServer).LoginUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grill.v1.GrillService/LoginUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GrillServiceServer).LoginUser(ctx, req.(*LoginUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GrillService_LogoutUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LogoutUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GrillServiceServer).LogoutUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grill.v1.GrillService/LogoutUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GrillServiceServer).LogoutUser(ctx, req.(*LogoutUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GrillService_RefreshToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GrillServiceServer).RefreshToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grill.v1.GrillService/RefreshToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GrillServiceServer).RefreshToken(ctx, req.(*RefreshTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GrillService_GetUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUsersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GrillServiceServer).GetUsers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grill.v1.GrillService/GetUsers",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GrillServiceServer).GetUsers(ctx, req.(*GetUsersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -276,6 +436,26 @@ var GrillService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SendAgentPayload",
 			Handler:    _GrillService_SendAgentPayload_Handler,
+		},
+		{
+			MethodName: "CreateUser",
+			Handler:    _GrillService_CreateUser_Handler,
+		},
+		{
+			MethodName: "LoginUser",
+			Handler:    _GrillService_LoginUser_Handler,
+		},
+		{
+			MethodName: "LogoutUser",
+			Handler:    _GrillService_LogoutUser_Handler,
+		},
+		{
+			MethodName: "RefreshToken",
+			Handler:    _GrillService_RefreshToken_Handler,
+		},
+		{
+			MethodName: "GetUsers",
+			Handler:    _GrillService_GetUsers_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -8,7 +8,7 @@ const (
 )
 
 var (
-	defaults = map[string]interface{}{
+	Defaults = map[string]interface{}{
 		"debug":                           false,
 		"dev_mode":                        false,
 		"http_server.port":                HttpPort,
@@ -37,7 +37,7 @@ var (
 		"database.postgres.min_conns":     4,
 	}
 
-	envKeys = map[string]string{
+	EnvKeys = map[string]string{
 		"debug":                           "DEBUG",
 		"dev_mode":                        "DEV_MODE",
 		"init_admin_password":             "INIT_ADMIN_PASSWORD",

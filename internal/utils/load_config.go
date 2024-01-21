@@ -1,11 +1,10 @@
-package config
+package utils
 
 import (
 	"fmt"
 	"github.com/charmbracelet/log"
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
-	"github.com/zcubbs/x/pretty"
 	"strings"
 	"sync"
 )
@@ -15,21 +14,19 @@ var (
 	onceConfig sync.Once
 )
 
-func Load(configFile string) (*Configuration, error) {
+func Load(configFile string, configStruct any, defaults map[string]interface{}, envKeys map[string]string) error {
 	var err error
-	var cfg *Configuration
 	onceConfig.Do(func() {
-		cfg, err = loadConfiguration(configFile)
+		err = loadConfiguration(configFile, configStruct, defaults, envKeys)
 		if err != nil {
 			err = fmt.Errorf("error loading configuration: %w", err)
 		}
 	})
 
-	return cfg, err
+	return err
 }
 
-func loadConfiguration(configFile string) (*Configuration, error) {
-	var configuration Configuration
+func loadConfiguration(configFile string, configStruct any, defaults map[string]interface{}, envKeys map[string]string) error {
 	onceEnv.Do(loadEnv)
 
 	v := viper.New()
@@ -50,15 +47,17 @@ func loadConfiguration(configFile string) (*Configuration, error) {
 	if configFile != "" {
 		v.SetConfigFile(configFile)
 		if err := v.ReadInConfig(); err != nil {
-			return nil, fmt.Errorf("error reading config file: %w", err)
+			return fmt.Errorf("error reading config file: %w", err)
 		}
 	}
 
-	if err := v.Unmarshal(&configuration); err != nil {
-		return nil, fmt.Errorf("error unmarshalling config: %w", err)
+	fmt.Printf("configuration struct type: %t", configStruct)
+
+	if err := v.Unmarshal(configStruct); err != nil {
+		return fmt.Errorf("error unmarshalling config: %w", err)
 	}
 
-	return &configuration, nil
+	return nil
 }
 
 func loadEnv() {
@@ -67,9 +66,4 @@ func loadEnv() {
 	if err != nil {
 		log.Debug("no .env file found")
 	}
-}
-
-func PrintConfiguration(config Configuration) {
-	// Print out the configuration
-	pretty.PrintJson(config)
 }

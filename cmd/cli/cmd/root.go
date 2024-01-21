@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/common-nighthawk/go-figure"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+	"github.com/zcubbs/grill/cmd/cli/cmd/config"
+	"github.com/zcubbs/grill/cmd/cli/cmd/create"
+	"github.com/zcubbs/grill/cmd/cli/cmd/login"
 	"github.com/zcubbs/grill/cmd/cli/cmd/ping"
 	"os"
 )
@@ -53,16 +55,18 @@ func Execute() {
 }
 
 func init() {
-	initConfig()
-
 	rootCmd.DisableSuggestions = true
 	rootCmd.AddCommand(versionCmd)
 	rootCmd.AddCommand(aboutCmd)
 	rootCmd.AddCommand(ping.Cmd)
+	rootCmd.AddCommand(login.Cmd)
+	rootCmd.AddCommand(create.Cmd)
+	rootCmd.AddCommand(config.Cmd)
 
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "configFilePath",
+		fmt.Sprintf("%s%d.%s.yaml", os.Getenv("HOME"), os.PathSeparator, cliName),
+		"config file (default is $HOME/.grill.yaml)")
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "verbose output")
-	rootCmd.PersistentFlags().StringP("server", "s", "localhost:9000", "The server address in the format of host:port")
-	_ = viper.BindPFlag("server", rootCmd.PersistentFlags().Lookup("server"))
 }
 
 func About() {
@@ -90,26 +94,4 @@ func getDescription() string {
 	return `
 /grill/ is a CLI tool for managing your clusters.
 `
-}
-
-func initConfig() {
-	if cfgFile != "" {
-		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
-	} else {
-		// Find home directory.
-		home, err := os.UserHomeDir()
-		cobra.CheckErr(err)
-
-		// Search config in home directory with name ".<config_file_name>" (without extension).
-		viper.AddConfigPath(home)
-		viper.SetConfigType("yaml")
-		viper.SetConfigName(fmt.Sprintf(".%s", cliName))
-	}
-
-	viper.AutomaticEnv()
-
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
-	}
 }
