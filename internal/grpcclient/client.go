@@ -1,10 +1,9 @@
 package grpcclient
 
 import (
-	"crypto/tls"
 	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials/insecure"
 	"time"
 )
 
@@ -42,13 +41,16 @@ func newClient(cfg *Config) (*Client, error) {
 }
 
 func getClient(cfg *Config) (pb.GrillServiceClient, error) {
-	tc := credentials.NewTLS(&tls.Config{
-		InsecureSkipVerify: true,
-	})
+	// TLS config
+	//tc := credentials.NewTLS(&tls.Config{
+	//	InsecureSkipVerify: true,
+	//})
 
 	conn, err := grpc.Dial(cfg.Host,
-		grpc.WithTransportCredentials(tc),
+		//grpc.WithTransportCredentials(tc), // TLS
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
+
 	if err != nil {
 		return nil, err
 	}

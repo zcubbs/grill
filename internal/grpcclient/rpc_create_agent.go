@@ -1,9 +1,13 @@
 package grpcclient
 
-import pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+import (
+	"github.com/charmbracelet/log"
+	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+)
 
 // CreateAgent creates a new agent
 func (s *Service) CreateAgent(agent *pb.CreateAgentRequest) (*pb.CreateAgentResponse, error) {
+	log.Debug("grpcclient.CreateAgent", "agent", agent)
 	ctx, err := s.client.GetCtxWithAuth()
 	if err != nil {
 		return nil, err

@@ -3,7 +3,6 @@ package api
 import (
 	"context"
 	"errors"
-	"github.com/charmbracelet/log"
 	db "github.com/zcubbs/grill/cmd/server/db/sqlc"
 	dbUtil "github.com/zcubbs/grill/cmd/server/db/util"
 	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
@@ -14,7 +13,6 @@ import (
 )
 
 func (s *Server) LoginUser(ctx context.Context, req *pb.LoginUserRequest) (*pb.LoginUserResponse, error) {
-	log.Debug("LoginUser", "req", req)
 	user, err := s.store.GetUserByUsername(ctx, req.GetUsername())
 	if err != nil {
 		if errors.Is(err, dbUtil.ErrRecordNotFound) {

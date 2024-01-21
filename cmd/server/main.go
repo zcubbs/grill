@@ -85,7 +85,7 @@ func main() {
 	}
 
 	// Create gRPC Server
-	gs, err := api.NewServer(nil, cfg, api.EmbedAssetsOpts{
+	gs, err := api.NewServer(store, cfg, api.EmbedAssetsOpts{
 		Dir:    openapi.OpenApiFs,
 		Path:   "/swagger/",
 		Prefix: ".",

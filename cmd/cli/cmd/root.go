@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/zcubbs/grill/cmd/cli/cmd/config"
 	"github.com/zcubbs/grill/cmd/cli/cmd/create"
+	"github.com/zcubbs/grill/cmd/cli/cmd/get"
 	"github.com/zcubbs/grill/cmd/cli/cmd/login"
 	"github.com/zcubbs/grill/cmd/cli/cmd/ping"
 	"os"
@@ -61,6 +62,7 @@ func init() {
 	rootCmd.AddCommand(ping.Cmd)
 	rootCmd.AddCommand(login.Cmd)
 	rootCmd.AddCommand(create.Cmd)
+	rootCmd.AddCommand(get.Cmd)
 	rootCmd.AddCommand(config.Cmd)
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "configFilePath",
