@@ -51,8 +51,6 @@ func loadConfiguration(configFile string, configStruct any, defaults map[string]
 		}
 	}
 
-	fmt.Printf("configuration struct type: %t", configStruct)
-
 	if err := v.Unmarshal(configStruct); err != nil {
 		return fmt.Errorf("error unmarshalling config: %w", err)
 	}

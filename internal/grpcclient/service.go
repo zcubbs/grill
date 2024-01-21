@@ -6,14 +6,14 @@ import (
 )
 
 type Querier interface {
-	LoginUser(username, password string) *pb.LoginUserRequest
+	LoginUser(username, password string) (*pb.LoginUserResponse, error)
 	LogoutUser(sessionId string) error
 	CreateUser(user *pb.CreateUserRequest) (*pb.CreateUserResponse, error)
 	GetUsers() ([]*pb.User, error)
 	CreateAgent(agent *pb.CreateAgentRequest) (*pb.CreateAgentResponse, error)
 	GetAgents() ([]*pb.Agent, error)
 	RefreshToken() (*pb.RefreshTokenResponse, error)
-	Ping() error
+	Ping() (*pb.PingResponse, error)
 }
 
 type Service struct {
@@ -21,7 +21,7 @@ type Service struct {
 }
 
 func New(cfg *Config) Querier {
-	client, err := newClient(cfg, nil)
+	client, err := newClient(cfg)
 	if err != nil {
 		log.Fatal("failed to create client", "error", err.Error())
 	}

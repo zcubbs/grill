@@ -1,12 +1,9 @@
 package create
 
 import (
-	"fmt"
-	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
-	vconf "github.com/zcubbs/grill/cmd/cli/config"
+	"github.com/zcubbs/grill/cmd/cli/utils"
 	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
-	"github.com/zcubbs/grill/internal/grpcclient"
 	"github.com/zcubbs/x/pretty"
 )
 
@@ -26,25 +23,15 @@ var createAgentCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		verbose := cmd.Flag("verbose").Value.String() == "true"
 		err := createAgent(verbose)
-		if err != nil {
-			fmt.Println(err)
-		}
+		utils.CheckNoError(err)
 	},
 }
 
 func createAgent(verbose bool) (err error) {
-	// load config
-	cfg := vconf.Load()
+	// init cli context
+	ctx := utils.NewCtx()
 
-	client := grpcclient.New(&grpcclient.Config{
-		Host: cfg.GrpcClient.Host,
-	})
-
-	if err != nil {
-		log.Fatal("failed to init grpc client", "error", err.Error())
-	}
-
-	resp, err := client.CreateAgent(&pb.CreateAgentRequest{
+	resp, err := ctx.GrpcClient.CreateAgent(&pb.CreateAgentRequest{
 		Name:     agentName,
 		Group:    agentGroup,
 		IsActive: agentActive,

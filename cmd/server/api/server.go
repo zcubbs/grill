@@ -12,6 +12,7 @@ import (
 	db "github.com/zcubbs/grill/cmd/server/db/sqlc"
 	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
 	"github.com/zcubbs/grill/internal/logger"
+	"github.com/zcubbs/grill/internal/token"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
@@ -25,16 +26,23 @@ import (
 type Server struct {
 	pb.UnimplementedGrillServiceServer
 
-	store     db.Store
-	cfg       *config.Configuration
-	embedOpts []EmbedAssetsOpts
+	store      db.Store
+	tokenMaker token.Maker
+	cfg        *config.Configuration
+	embedOpts  []EmbedAssetsOpts
 }
 
 func NewServer(store db.Store, cfg *config.Configuration, embedOpts ...EmbedAssetsOpts) (*Server, error) {
+	tokenMaker, err := token.NewJwtMaker(cfg.Auth.TokenSymmetricKey)
+	if err != nil {
+		return nil, fmt.Errorf("cannot create new tokenMaker: %w", err)
+	}
+
 	s := &Server{
-		store:     store,
-		cfg:       cfg,
-		embedOpts: embedOpts,
+		store:      store,
+		tokenMaker: tokenMaker,
+		cfg:        cfg,
+		embedOpts:  embedOpts,
 	}
 
 	return s, nil

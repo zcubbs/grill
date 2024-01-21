@@ -12,13 +12,12 @@ type Client struct {
 	cfg *Config
 
 	pb.GrillServiceClient
-
-	onTokenRefresh func(Config) error
 }
 
 type Config struct {
-	Host string
-	Auth *AuthData
+	Host             string
+	Auth             *AuthData
+	RefreshTokenHook RefreshTokenHook
 }
 
 type AuthData struct {
@@ -30,7 +29,7 @@ type AuthData struct {
 
 type RefreshTokenHook func(Config) error
 
-func newClient(cfg *Config, refreshTokenHook RefreshTokenHook) (*Client, error) {
+func newClient(cfg *Config) (*Client, error) {
 	client, err := getClient(cfg)
 	if err != nil {
 		return nil, err
@@ -39,7 +38,6 @@ func newClient(cfg *Config, refreshTokenHook RefreshTokenHook) (*Client, error) 
 	return &Client{
 		cfg:                cfg,
 		GrillServiceClient: client,
-		onTokenRefresh:     refreshTokenHook,
 	}, nil
 }
 

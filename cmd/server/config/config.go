@@ -8,6 +8,7 @@ type Configuration struct {
 	HttpServer        HttpServerConfig `mapstructure:"http_server"`
 	GrpcServer        GrpcServerConfig `mapstructure:"grpc_server"`
 	Database          DatabaseConfig   `mapstructure:"database"`
+	Auth              AuthConfig       `mapstructure:"auth"`
 	InitAdminPassword string           `mapstructure:"init_admin_password"`
 
 	// Version is the version of the application.
@@ -72,4 +73,10 @@ type PostgresConfig struct {
 	MaxConns int32 `mapstructure:"max_conns" json:"max_conns"`
 	// MinConns is the minimum number of connections in the pool. Default value: 2
 	MinConns int32 `mapstructure:"min_conns" json:"min_conns"`
+}
+
+type AuthConfig struct {
+	TokenSymmetricKey    string        `mapstructure:"token_symmetric_key"`
+	AccessTokenDuration  time.Duration `mapstructure:"access_token_duration"`
+	RefreshTokenDuration time.Duration `mapstructure:"refresh_token_duration"`
 }

@@ -9,6 +9,12 @@ import (
 	"time"
 )
 
+type UnauthenticatedError struct{}
+
+func (e *UnauthenticatedError) Error() string {
+	return "request was unauthenticated"
+}
+
 func (c *Client) GetCtxWithAuth() (ctx context.Context, err error) {
 	err = checkAuthOk(*c.cfg)
 	if err != nil {
@@ -37,11 +43,11 @@ func (c *Client) GetCtxWithAuth() (ctx context.Context, err error) {
 
 func checkAuthOk(cfg Config) error {
 	if cfg.Auth == nil {
-		return fmt.Errorf("user not logged in")
+		return &UnauthenticatedError{}
 	}
 
 	if cfg.Auth.AccessToken == "" || cfg.Auth.RefreshToken == "" {
-		return fmt.Errorf("user not logged in")
+		return &UnauthenticatedError{}
 	}
 
 	return nil
@@ -59,9 +65,11 @@ func (c *Client) refreshAccessToken() error {
 	c.cfg.Auth.AccessToken = response.AccessToken
 	c.cfg.Auth.AccessTokenExpiresAt = response.AccessTokenExpiresAt.AsTime()
 
-	err = c.onTokenRefresh(*c.cfg)
-	if err != nil {
-		return err
+	if c.cfg.RefreshTokenHook != nil {
+		err = c.cfg.RefreshTokenHook(*c.cfg)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

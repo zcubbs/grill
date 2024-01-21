@@ -6,12 +6,6 @@ import (
 	"github.com/zcubbs/grill/internal/grpcclient"
 )
 
-var client *grpcclient.Client
-
-func GetRpcClient(clientConfig *grpcclient.Config) (*grpcclient.Client, error) {
-	return grpcclient.New(clientConfig, OnRefreshToken)
-}
-
 func OnRefreshToken(cc grpcclient.Config) error {
 	cfg := config.Load()
 
@@ -25,18 +19,4 @@ func OnRefreshToken(cc grpcclient.Config) error {
 		return fmt.Errorf("failed to save config on refreshToken: %w", err)
 	}
 	return nil
-}
-
-func GetRpcService(clientConfig *grpcclient.Config) (*grpcclient.Client, error) {
-	if client != nil {
-		return client, nil
-	}
-
-	var err error
-	client, err = GetRpcClient(clientConfig)
-	if err != nil {
-		return nil, err
-	}
-
-	return client, nil
 }
