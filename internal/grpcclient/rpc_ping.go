@@ -5,6 +5,6 @@ import (
 	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
 )
 
-func (s *Service) Ping() (*pb.PingResponse, error) {
-	return s.client.Ping(context.Background(), &pb.PingRequest{})
+func (s *Service) Ping(ctx context.Context) (*pb.PingResponse, error) {
+	return s.client.Ping(ctx, &pb.PingRequest{})
 }

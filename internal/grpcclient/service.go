@@ -1,6 +1,7 @@
 package grpcclient
 
 import (
+	"context"
 	"github.com/charmbracelet/log"
 	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
 )
@@ -13,7 +14,8 @@ type Querier interface {
 	CreateAgent(agent *pb.CreateAgentRequest) (*pb.CreateAgentResponse, error)
 	GetAgents() ([]*pb.Agent, error)
 	RefreshToken() (*pb.RefreshTokenResponse, error)
-	Ping() (*pb.PingResponse, error)
+	RegisterAgent(context.Context, *pb.RegisterAgentRequest) (*pb.RegisterAgentResponse, error)
+	Ping(context.Context) (*pb.PingResponse, error)
 }
 
 type Service struct {

@@ -5,9 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/go-co-op/gocron/v2"
-	"github.com/zcubbs/grill/cmd/cli/cmd/ping"
 	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
-	"github.com/zcubbs/grill/internal/utils"
 	"time"
 )
 
@@ -32,17 +30,17 @@ func main() {
 	fmt.Println("serverAddr: ", *serverAddr)
 	fmt.Println("token: ", *token)
 
-	client, err := utils.GetGRPCClient(*serverAddr)
-	if err != nil {
-		panic("failed to create client: " + err.Error())
-	}
+	grpcCtx := NewCtx(&AgentConfig{
+		Host:  *serverAddr,
+		Token: *token,
+	})
 
-	err = register(client, *token)
+	err := register(grpcCtx)
 	if err != nil {
 		panic("register failed: " + err.Error())
 	}
 
-	s, err := newScheduler(client, *token)
+	s, err := newScheduler(grpcCtx)
 	if err != nil {
 		panic("failed to create scheduler: " + err.Error())
 	}
@@ -52,14 +50,14 @@ func main() {
 	select {}
 }
 
-func register(client pb.GrillServiceClient, token string) error {
+func register(grpcCtx *Ctx) error {
 	fmt.Println("registering agent...")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	_, err := client.RegisterAgent(ctx, &pb.RegisterAgentRequest{
-		Token: token,
+	_, err := grpcCtx.GrpcClient.RegisterAgent(ctx, &pb.RegisterAgentRequest{
+		Token: grpcCtx.Cfg.Token,
 	})
 	if err != nil {
 		return err
@@ -68,7 +66,7 @@ func register(client pb.GrillServiceClient, token string) error {
 	return nil
 }
 
-func newScheduler(client pb.GrillServiceClient, token string) (gocron.Scheduler, error) {
+func newScheduler(grpcCtx *Ctx) (gocron.Scheduler, error) {
 	s, err := gocron.NewScheduler(
 		gocron.WithStopTimeout(10 * time.Second),
 	)
@@ -81,12 +79,12 @@ func newScheduler(client pb.GrillServiceClient, token string) (gocron.Scheduler,
 			5*time.Second,
 		),
 		gocron.NewTask(
-			func(c pb.GrillServiceClient, t string) {
-				err := heartbeat(c, t)
+			func(grpcCtx *Ctx) {
+				err := heartbeat(grpcCtx)
 				if err != nil {
 					fmt.Println("ping failed: ", err)
 				}
-			}, client, token,
+			}, grpcCtx.GrpcClient,
 		),
 		gocron.WithSingletonMode(gocron.LimitModeReschedule),
 		gocron.WithName("PingServerJob"),
@@ -103,11 +101,10 @@ func newScheduler(client pb.GrillServiceClient, token string) (gocron.Scheduler,
 	return s, nil
 }
 
-func heartbeat(client pb.GrillServiceClient, token string) error {
+func heartbeat(grpcCtx *Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 
-	_ = token
-
-	return ping.Ping(client, ctx)
+	_, err := grpcCtx.GrpcClient.Ping(ctx)
+	return err
 }
