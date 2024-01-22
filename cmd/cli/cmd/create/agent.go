@@ -1,10 +1,10 @@
 package create
 
 import (
+	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
 	"github.com/zcubbs/grill/cmd/cli/utils"
 	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
-	"github.com/zcubbs/x/pretty"
 )
 
 var (
@@ -21,13 +21,13 @@ var createAgentCmd = &cobra.Command{
 	Long:   `create agent`,
 	Hidden: false,
 	Run: func(cmd *cobra.Command, args []string) {
-		verbose := cmd.Flag("verbose").Value.String() == "true"
-		err := createAgent(verbose)
+		_ = cmd.Flag("verbose").Value.String() == "true"
+		err := createAgent()
 		utils.CheckNoError(err)
 	},
 }
 
-func createAgent(verbose bool) (err error) {
+func createAgent() (err error) {
 	// init cli context
 	ctx := utils.NewCtx()
 
@@ -41,9 +41,14 @@ func createAgent(verbose bool) (err error) {
 		return err
 	}
 
-	if verbose {
-		pretty.PrintJson(resp)
-	}
+	log.Info("Agent created",
+		"id", resp.Agent.Id,
+		"name", resp.Agent.Name,
+		"group", resp.Agent.Group,
+		"active", resp.Agent.Active,
+		"scopes", resp.Agent.Scopes,
+		"token", resp.Agent.Token,
+	)
 
 	return nil
 }

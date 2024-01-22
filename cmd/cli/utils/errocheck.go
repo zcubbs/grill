@@ -1,14 +1,14 @@
 package utils
 
 import (
-	"errors"
 	"github.com/charmbracelet/log"
-	"github.com/zcubbs/grill/internal/grpcclient"
+	"strings"
 )
 
 func CheckNoError(err error) {
 	if err != nil {
-		if errors.Is(err, err.(*grpcclient.UnauthenticatedError)) {
+		// check if the error is a grpc error with a status Unauthenticated
+		if strings.Contains(err.Error(), "Unauthenticated") {
 			log.Fatal("You must login first. use command: 'grill login'")
 		} else {
 			log.Fatal(err)

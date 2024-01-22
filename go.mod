@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/charmbracelet/log v0.3.1
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be
-	github.com/go-co-op/gocron/v2 v2.2.0
+	github.com/go-co-op/gocron/v2 v2.2.1
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang-migrate/migrate/v4 v4.17.0
 	github.com/google/uuid v1.5.0
@@ -21,8 +21,8 @@ require (
 	github.com/zcubbs/x v0.1.16
 	go.uber.org/mock v0.4.0
 	golang.org/x/term v0.16.0
-	google.golang.org/genproto/googleapis/api v0.0.0-20240116215550-a9fa1716bcac
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240102182953-50ed04b92917
+	google.golang.org/genproto/googleapis/api v0.0.0-20240122161410-6c6643bf1457
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240122161410-6c6643bf1457
 	google.golang.org/grpc v1.60.1
 	google.golang.org/protobuf v1.32.0
 )
@@ -68,7 +68,7 @@ require (
 	golang.org/x/sync v0.5.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	google.golang.org/genproto v0.0.0-20240102182953-50ed04b92917 // indirect
+	google.golang.org/genproto v0.0.0-20240116215550-a9fa1716bcac // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

@@ -8,6 +8,7 @@ import (
 	"github.com/zcubbs/grill/cmd/cli/cmd/create"
 	"github.com/zcubbs/grill/cmd/cli/cmd/get"
 	"github.com/zcubbs/grill/cmd/cli/cmd/login"
+	"github.com/zcubbs/grill/cmd/cli/cmd/logout"
 	"github.com/zcubbs/grill/cmd/cli/cmd/ping"
 	"os"
 )
@@ -61,6 +62,7 @@ func init() {
 	rootCmd.AddCommand(aboutCmd)
 	rootCmd.AddCommand(ping.Cmd)
 	rootCmd.AddCommand(login.Cmd)
+	rootCmd.AddCommand(logout.Cmd)
 	rootCmd.AddCommand(create.Cmd)
 	rootCmd.AddCommand(get.Cmd)
 	rootCmd.AddCommand(config.Cmd)

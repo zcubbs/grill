@@ -138,8 +138,22 @@ func initConfigViperValues() {
 }
 
 func isValidDate(date string) bool {
-	_, err := time.Parse(time.RFC3339, date)
-	return err == nil
+	// List of potential date-time formats.
+	formats := []string{
+		time.RFC3339,
+		"2006-01-02 15:04:05.999999 -0700 MST",
+		"2006-01-02 15:04:05",
+		// ...
+	}
+
+	// parse the date string using each format.
+	for _, format := range formats {
+		if _, err := time.Parse(format, date); err == nil {
+			return true // Successfully parsed with this format.
+		}
+	}
+
+	return false
 }
 
 func SaveConfig(cfg *Config) error {

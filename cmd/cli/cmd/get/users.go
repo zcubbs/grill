@@ -20,7 +20,7 @@ var usersCmd = &cobra.Command{
 	},
 }
 
-func getUsers() (err error) {
+func getUsers() error {
 	ctx := utils.NewCtx()
 
 	users, err := ctx.GrpcClient.GetUsers()

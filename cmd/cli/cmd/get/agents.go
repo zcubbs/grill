@@ -37,7 +37,7 @@ func getAgents() (err error) {
 
 	now := time.Unix(time.Now().Unix(), 0).UTC()
 
-	cols := []interface{}{"ID", "Name", "Active", "Group", "API Key", "Scopes", "Created", "Last Connection"}
+	cols := []interface{}{"ID", "Name", "Active", "Group", "Token", "Scopes", "Created", "Last Connection"}
 	rows := make([][]interface{}, len(agents))
 	for _, agent := range agents {
 		rows = append(rows, []interface{}{

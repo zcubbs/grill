@@ -12,7 +12,7 @@ import (
 type UnauthenticatedError struct{}
 
 func (e *UnauthenticatedError) Error() string {
-	return "request was unauthenticated"
+	return "request was unauthenticated. please login first: `grill login`"
 }
 
 func (c *Client) GetCtxWithAuth() (ctx context.Context, err error) {
