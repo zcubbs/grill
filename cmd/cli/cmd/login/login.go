@@ -102,6 +102,11 @@ func ReadCredentials(cfg *config.Config) (*Credentials, error) {
 	c.AccessToken = cfg.GrpcClient.AccessToken
 	c.RefreshToken = cfg.GrpcClient.RefreshToken
 
+	// check if refresh token is expired
+	if c.RefreshTokenExpiresAt.Before(time.Now()) {
+		return &c, fmt.Errorf("refresh token expired")
+	}
+
 	return &c, nil
 }
 
