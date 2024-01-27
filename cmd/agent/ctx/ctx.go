@@ -1,15 +1,16 @@
-package main
+package ctx
 
 import (
+	"github.com/zcubbs/grill/cmd/agent/config"
 	"github.com/zcubbs/grill/internal/grpcclient"
 )
 
 type Ctx struct {
-	Cfg        *AgentConfig
+	Cfg        *config.AgentConfig
 	GrpcClient grpcclient.Querier
 }
 
-func NewCtx(cfg *AgentConfig) *Ctx {
+func NewCtx(cfg *config.AgentConfig) *Ctx {
 	grpcClient := grpcclient.New(&grpcclient.Config{
 		Host: cfg.Host,
 	})

@@ -5,6 +5,8 @@ import (
 	"flag"
 	"fmt"
 	"github.com/go-co-op/gocron/v2"
+	"github.com/zcubbs/grill/cmd/agent/config"
+	"github.com/zcubbs/grill/cmd/agent/ctx"
 	pbAgent "github.com/zcubbs/grill/gen/proto/go/agent/v1"
 	"time"
 )
@@ -30,7 +32,7 @@ func main() {
 	fmt.Println("serverAddr: ", *serverAddr)
 	fmt.Println("token: ", *token)
 
-	grpcCtx := NewCtx(&AgentConfig{
+	grpcCtx := ctx.NewCtx(&config.AgentConfig{
 		Host:  *serverAddr,
 		Token: *token,
 	})
@@ -50,7 +52,7 @@ func main() {
 	select {}
 }
 
-func register(grpcCtx *Ctx) error {
+func register(grpcCtx *ctx.Ctx) error {
 	fmt.Println("registering agent...")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -66,7 +68,7 @@ func register(grpcCtx *Ctx) error {
 	return nil
 }
 
-func newScheduler(grpcCtx *Ctx) (gocron.Scheduler, error) {
+func newScheduler(grpcCtx *ctx.Ctx) (gocron.Scheduler, error) {
 	s, err := gocron.NewScheduler(
 		gocron.WithStopTimeout(10 * time.Second),
 	)
@@ -79,7 +81,7 @@ func newScheduler(grpcCtx *Ctx) (gocron.Scheduler, error) {
 			5*time.Second,
 		),
 		gocron.NewTask(
-			func(grpcCtx *Ctx) {
+			func(grpcCtx *ctx.Ctx) {
 				err := heartbeat(grpcCtx)
 				if err != nil {
 					fmt.Println("ping failed: ", err)
@@ -101,7 +103,7 @@ func newScheduler(grpcCtx *Ctx) (gocron.Scheduler, error) {
 	return s, nil
 }
 
-func heartbeat(grpcCtx *Ctx) error {
+func heartbeat(grpcCtx *ctx.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 

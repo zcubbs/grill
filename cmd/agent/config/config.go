@@ -1,4 +1,4 @@
-package main
+package config
 
 type AgentConfig struct {
 	Host  string `json:"host"`
