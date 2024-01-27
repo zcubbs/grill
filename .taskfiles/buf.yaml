@@ -6,5 +6,6 @@ tasks:
   default:
     desc: Generate protobuf code and manage .proto files
     cmds:
-      - cmd: buf mod update {{.PROTO_DIR}}
+      - for: { var: PROTO_DIRS }
+        cmd: buf mod update {{.ITEM}}
       - cmd: buf generate

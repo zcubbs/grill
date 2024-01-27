@@ -3,6 +3,7 @@ module github.com/zcubbs/grill
 go 1.21
 
 require (
+	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.32.0-20231115204500-e097f827e652.1
 	github.com/charmbracelet/log v0.3.1
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be
 	github.com/go-co-op/gocron/v2 v2.2.1

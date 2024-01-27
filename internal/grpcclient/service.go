@@ -3,19 +3,21 @@ package grpcclient
 import (
 	"context"
 	"github.com/charmbracelet/log"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	agentPb "github.com/zcubbs/grill/gen/proto/go/agent/v1"
+	grillPb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	userPb "github.com/zcubbs/grill/gen/proto/go/user/v1"
 )
 
 type Querier interface {
-	LoginUser(username, password string) (*pb.LoginUserResponse, error)
+	LoginUser(username, password string) (*userPb.LoginUserResponse, error)
 	LogoutUser(sessionId string) error
-	CreateUser(user *pb.CreateUserRequest) (*pb.CreateUserResponse, error)
-	GetUsers() ([]*pb.User, error)
-	CreateAgent(agent *pb.CreateAgentRequest) (*pb.CreateAgentResponse, error)
-	GetAgents() ([]*pb.Agent, error)
-	RefreshToken() (*pb.RefreshTokenResponse, error)
-	RegisterAgent(context.Context, *pb.RegisterAgentRequest) (*pb.RegisterAgentResponse, error)
-	Ping(context.Context) (*pb.PingResponse, error)
+	CreateUser(user *userPb.CreateUserRequest) (*userPb.CreateUserResponse, error)
+	GetUsers() ([]*userPb.User, error)
+	CreateAgent(agent *agentPb.CreateAgentRequest) (*agentPb.CreateAgentResponse, error)
+	GetAgents() ([]*agentPb.Agent, error)
+	RefreshToken() (*userPb.RefreshTokenResponse, error)
+	RegisterAgent(context.Context, *agentPb.RegisterAgentRequest) (*agentPb.RegisterAgentResponse, error)
+	Ping(context.Context) (*grillPb.PingResponse, error)
 }
 
 type Service struct {

@@ -2,10 +2,10 @@ package grpcclient
 
 import (
 	"context"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	agentPb "github.com/zcubbs/grill/gen/proto/go/agent/v1"
 )
 
-func (s *Service) RegisterAgent(ctx context.Context, in *pb.RegisterAgentRequest) (*pb.RegisterAgentResponse, error) {
+func (s *Service) RegisterAgent(ctx context.Context, in *agentPb.RegisterAgentRequest) (*agentPb.RegisterAgentResponse, error) {
 	response, err := s.client.RegisterAgent(ctx, in)
 	if err != nil {
 		return nil, err

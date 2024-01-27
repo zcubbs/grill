@@ -5,7 +5,7 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/zcubbs/grill/cmd/server/config"
 	db "github.com/zcubbs/grill/cmd/server/db/sqlc"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	userPb "github.com/zcubbs/grill/gen/proto/go/user/v1"
 	"github.com/zcubbs/x/password"
 	"github.com/zcubbs/x/random"
 )
@@ -39,7 +39,7 @@ func InitAdminUser(store db.Store, cfg config.Configuration) error {
 		HashedPassword: hashedPass,
 		FullName:       "Administrator",
 		Email:          "",
-		Role:           pb.Role_ROLE_ADMIN.String(),
+		Role:           userPb.Role_ROLE_ADMIN.String(),
 	})
 	if err != nil {
 		errCode := ErrorCode(err)

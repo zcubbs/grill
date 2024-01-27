@@ -6,14 +6,14 @@ import (
 	"github.com/zcubbs/go-pkg/password"
 	db "github.com/zcubbs/grill/cmd/server/db/sqlc"
 	dbUtil "github.com/zcubbs/grill/cmd/server/db/util"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	userPb "github.com/zcubbs/grill/gen/proto/go/user/v1"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 // CreateUser handles the creation of a new user via gRPC.
-func (s *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
+func (s *Server) CreateUser(ctx context.Context, req *userPb.CreateUserRequest) (*userPb.CreateUserResponse, error) {
 	_, err := s.requireAdmin(ctx)
 	if err != nil {
 		return nil, unauthorizedError(err)
@@ -30,8 +30,8 @@ func (s *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb
 	}
 
 	role := req.GetRole().String()
-	if role == pb.Role_ROLE_UNSPECIFIED.String() {
-		role = pb.Role_ROLE_USER.String()
+	if role == userPb.Role_ROLE_UNSPECIFIED.String() {
+		role = userPb.Role_ROLE_USER.String()
 	}
 
 	// Prepare parameters for the database function.
@@ -55,10 +55,10 @@ func (s *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb
 	// Convert the db.User to pb.User for the response.
 	respUser := convertUserToPb(user)
 
-	return &pb.CreateUserResponse{User: respUser}, nil
+	return &userPb.CreateUserResponse{User: respUser}, nil
 }
 
-func validateCreateUserRequest(req *pb.CreateUserRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+func validateCreateUserRequest(req *userPb.CreateUserRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 	if err := ValidateUsername(req.GetUsername()); err != nil {
 		violations = append(violations, fieldViolation("username", err))
 	}

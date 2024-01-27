@@ -5,7 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/go-co-op/gocron/v2"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	pbAgent "github.com/zcubbs/grill/gen/proto/go/agent/v1"
 	"time"
 )
 
@@ -56,7 +56,7 @@ func register(grpcCtx *Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	_, err := grpcCtx.GrpcClient.RegisterAgent(ctx, &pb.RegisterAgentRequest{
+	_, err := grpcCtx.GrpcClient.RegisterAgent(ctx, &pbAgent.RegisterAgentRequest{
 		Token: grpcCtx.Cfg.Token,
 	})
 	if err != nil {

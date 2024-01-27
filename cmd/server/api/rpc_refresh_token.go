@@ -2,14 +2,14 @@ package api
 
 import (
 	"context"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	userPb "github.com/zcubbs/grill/gen/proto/go/user/v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"time"
 )
 
-func (s *Server) RefreshToken(ctx context.Context, req *pb.RefreshTokenRequest) (*pb.RefreshTokenResponse, error) {
+func (s *Server) RefreshToken(ctx context.Context, req *userPb.RefreshTokenRequest) (*userPb.RefreshTokenResponse, error) {
 	refreshTokenPayload, err := s.tokenMaker.VerifyToken(req.RefreshToken)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "invalid refresh token: %v", err)
@@ -46,7 +46,7 @@ func (s *Server) RefreshToken(ctx context.Context, req *pb.RefreshTokenRequest) 
 		return nil, status.Errorf(codes.Internal, "failed to create access token: %v", err)
 	}
 
-	return &pb.RefreshTokenResponse{
+	return &userPb.RefreshTokenResponse{
 		AccessToken:          accessToken,
 		AccessTokenExpiresAt: timestamppb.New(accessTokenPayload.ExpiredAt),
 	}, nil

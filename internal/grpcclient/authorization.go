@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/charmbracelet/log"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	userPb "github.com/zcubbs/grill/gen/proto/go/user/v1"
 	"google.golang.org/grpc/metadata"
 	"time"
 )
@@ -55,7 +55,7 @@ func checkAuthOk(cfg Config) error {
 
 func (c *Client) refreshAccessToken() error {
 	ctx := context.Background()
-	response, err := c.RefreshToken(ctx, &pb.RefreshTokenRequest{
+	response, err := c.RefreshToken(ctx, &userPb.RefreshTokenRequest{
 		RefreshToken: c.cfg.Auth.RefreshToken,
 	})
 	if err != nil {

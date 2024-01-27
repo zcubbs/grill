@@ -4,7 +4,7 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
 	"github.com/zcubbs/grill/cmd/cli/utils"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	agentPb "github.com/zcubbs/grill/gen/proto/go/agent/v1"
 )
 
 var (
@@ -31,7 +31,7 @@ func createAgent() (err error) {
 	// init cli context
 	ctx := utils.NewCtx()
 
-	resp, err := ctx.GrpcClient.CreateAgent(&pb.CreateAgentRequest{
+	resp, err := ctx.GrpcClient.CreateAgent(&agentPb.CreateAgentRequest{
 		Name:     agentName,
 		Group:    agentGroup,
 		IsActive: agentActive,

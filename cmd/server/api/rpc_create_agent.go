@@ -4,14 +4,14 @@ import (
 	"context"
 	"github.com/zcubbs/go-pkg/random"
 	db "github.com/zcubbs/grill/cmd/server/db/sqlc"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	agentPb "github.com/zcubbs/grill/gen/proto/go/agent/v1"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 // CreateAgent handles the creation of a new agent.
-func (s *Server) CreateAgent(ctx context.Context, req *pb.CreateAgentRequest) (*pb.CreateAgentResponse, error) {
+func (s *Server) CreateAgent(ctx context.Context, req *agentPb.CreateAgentRequest) (*agentPb.CreateAgentResponse, error) {
 	_, err := s.requireAdmin(ctx)
 	if err != nil {
 		return nil, unauthorizedError(err)
@@ -37,12 +37,12 @@ func (s *Server) CreateAgent(ctx context.Context, req *pb.CreateAgentRequest) (*
 		return nil, status.Errorf(codes.Internal, "failed to create agent: %v", err)
 	}
 
-	return &pb.CreateAgentResponse{
+	return &agentPb.CreateAgentResponse{
 		Agent: convertAgentToPb(agent),
 	}, nil
 }
 
-func validateCreateAgentRequest(_ *pb.CreateAgentRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+func validateCreateAgentRequest(_ *agentPb.CreateAgentRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 
 	return violations
 }

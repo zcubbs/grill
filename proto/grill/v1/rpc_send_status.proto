@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package grill.v1;
+
+message SendStatusRequest {
+  string hostname = 1;
+  string status = 2;
+  string message = 3;
+  string timestamp = 4;
+  string version = 5;
+}
+
+message SendStatusResponse {
+  string status = 1;
+  bool pull_config = 2;
+  bool pull_tasks = 3;
+}

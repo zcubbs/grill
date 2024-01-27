@@ -7,7 +7,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	db "github.com/zcubbs/grill/cmd/server/db/sqlc"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	agentPb "github.com/zcubbs/grill/gen/proto/go/agent/v1"
+	userPb "github.com/zcubbs/grill/gen/proto/go/user/v1"
 )
 
 func TestConvertUserToPb(t *testing.T) {
@@ -35,13 +36,13 @@ func TestConvertUserToPb(t *testing.T) {
 
 func TestConvertPbToUser(t *testing.T) {
 	// Setup
-	pbUser := &pb.User{
+	pbUser := &userPb.User{
 		Username:          "testUser",
 		FullName:          "Test User",
 		Email:             "test@example.com",
 		PasswordChangedAt: timestamppb.Now(),
 		CreatedAt:         timestamppb.Now(),
-		Role:              pb.Role_ROLE_USER,
+		Role:              userPb.Role_ROLE_USER,
 	}
 
 	// Call the function
@@ -58,7 +59,7 @@ func TestConvertPbToUser(t *testing.T) {
 
 func TestConvertPbToAgent(t *testing.T) {
 	// Setup
-	pbAgent := &pb.Agent{
+	pbAgent := &agentPb.Agent{
 		Name:   "testAgent",
 		Active: false,
 		Group:  "testGroup",

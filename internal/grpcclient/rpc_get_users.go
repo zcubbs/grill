@@ -1,15 +1,15 @@
 package grpcclient
 
 import (
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	userPb "github.com/zcubbs/grill/gen/proto/go/user/v1"
 )
 
-func (s *Service) GetUsers() ([]*pb.User, error) {
+func (s *Service) GetUsers() ([]*userPb.User, error) {
 	ctx, err := s.client.GetCtxWithAuth()
 	if err != nil {
 		return nil, err
 	}
-	response, err := s.client.GetUsers(ctx, &pb.GetUsersRequest{})
+	response, err := s.client.GetUsers(ctx, &userPb.GetUsersRequest{})
 	if err != nil {
 		return nil, err
 	}

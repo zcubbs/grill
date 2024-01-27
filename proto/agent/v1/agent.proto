@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package agent.v1;
+
+import "google/protobuf/timestamp.proto";
+
+message Agent {
+  string id = 1;
+  string name = 2;
+  bool active = 3;
+  string group = 4;
+  string token = 5;
+  string scopes = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp last_connection = 8;
+}

@@ -5,7 +5,7 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
 	"github.com/zcubbs/grill/cmd/cli/utils"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	userPb "github.com/zcubbs/grill/gen/proto/go/user/v1"
 )
 
 var (
@@ -34,13 +34,13 @@ var user = &cobra.Command{
 func createUser() (err error) {
 	ctx := utils.NewCtx()
 
-	var userRole pb.Role
+	var userRole userPb.Role
 	if isAdmin {
-		userRole = pb.Role_ROLE_ADMIN
+		userRole = userPb.Role_ROLE_ADMIN
 	} else {
-		userRole = pb.Role_ROLE_USER
+		userRole = userPb.Role_ROLE_USER
 	}
-	response, err := ctx.GrpcClient.CreateUser(&pb.CreateUserRequest{
+	response, err := ctx.GrpcClient.CreateUser(&userPb.CreateUserRequest{
 		Username: userUsername,
 		FullName: userFullname,
 		Email:    userEmail,

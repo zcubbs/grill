@@ -1,11 +1,11 @@
 package grpcclient
 
 import (
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	agentPb "github.com/zcubbs/grill/gen/proto/go/agent/v1"
 )
 
 // CreateAgent creates a new agent
-func (s *Service) CreateAgent(agent *pb.CreateAgentRequest) (*pb.CreateAgentResponse, error) {
+func (s *Service) CreateAgent(agent *agentPb.CreateAgentRequest) (*agentPb.CreateAgentResponse, error) {
 	ctx, err := s.client.GetCtxWithAuth()
 	if err != nil {
 		return nil, err

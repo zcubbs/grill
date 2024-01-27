@@ -5,14 +5,14 @@ import (
 	"errors"
 	db "github.com/zcubbs/grill/cmd/server/db/sqlc"
 	dbUtil "github.com/zcubbs/grill/cmd/server/db/util"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	userPb "github.com/zcubbs/grill/gen/proto/go/user/v1"
 	"github.com/zcubbs/x/password"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-func (s *Server) LoginUser(ctx context.Context, req *pb.LoginUserRequest) (*pb.LoginUserResponse, error) {
+func (s *Server) LoginUser(ctx context.Context, req *userPb.LoginUserRequest) (*userPb.LoginUserResponse, error) {
 	user, err := s.store.GetUserByUsername(ctx, req.GetUsername())
 	if err != nil {
 		if errors.Is(err, dbUtil.ErrRecordNotFound) {
@@ -58,7 +58,7 @@ func (s *Server) LoginUser(ctx context.Context, req *pb.LoginUserRequest) (*pb.L
 		return nil, status.Errorf(codes.Internal, "failed to create session: %v", err)
 	}
 
-	rsp := &pb.LoginUserResponse{
+	rsp := &userPb.LoginUserResponse{
 		User:                  convertUserToPb(user),
 		SessionId:             session.ID.String(),
 		AccessToken:           accessToken,

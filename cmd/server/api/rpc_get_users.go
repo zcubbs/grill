@@ -2,13 +2,13 @@ package api
 
 import (
 	"context"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	userPb "github.com/zcubbs/grill/gen/proto/go/user/v1"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (s *Server) GetUsers(ctx context.Context, req *pb.GetUsersRequest) (*pb.GetUsersResponse, error) {
+func (s *Server) GetUsers(ctx context.Context, req *userPb.GetUsersRequest) (*userPb.GetUsersResponse, error) {
 	_, err := s.requireUser(ctx)
 	if err != nil {
 		return nil, unauthorizedError(err)
@@ -24,14 +24,14 @@ func (s *Server) GetUsers(ctx context.Context, req *pb.GetUsersRequest) (*pb.Get
 		return nil, status.Errorf(codes.Internal, "failed to get users: %v", err)
 	}
 
-	respUsers := make([]*pb.User, len(users))
+	respUsers := make([]*userPb.User, len(users))
 	for i, user := range users {
 		respUsers[i] = convertUserToPb(user)
 	}
 
-	return &pb.GetUsersResponse{Users: respUsers}, nil
+	return &userPb.GetUsersResponse{Users: respUsers}, nil
 }
 
-func validateGetUsersRequest(_ *pb.GetUsersRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+func validateGetUsersRequest(_ *userPb.GetUsersRequest) (violations []*errdetails.BadRequest_FieldViolation) {
 	return violations
 }

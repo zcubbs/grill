@@ -2,7 +2,7 @@ version: v1
 managed:
   enabled: true
   go_package_prefix:
-    default: github.com/zcubbs/grill
+    default: .
     except:
       - buf.build/googleapis/googleapis
       - buf.build/grpc-ecosystem/grpc-gateway
@@ -25,6 +25,8 @@ plugins:
       - allow_repeated_fields_in_body=true
   - plugin: openapiv2
     out: gen/openapi
+    strategy: all
     opt:
       - allow_repeated_fields_in_body=true
       - allow_merge=true
+      - merge_file_name=api-docs

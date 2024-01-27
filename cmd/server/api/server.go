@@ -10,7 +10,9 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/zcubbs/grill/cmd/server/config"
 	db "github.com/zcubbs/grill/cmd/server/db/sqlc"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	agentPb "github.com/zcubbs/grill/gen/proto/go/agent/v1"
+	grillpb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	userPb "github.com/zcubbs/grill/gen/proto/go/user/v1"
 	"github.com/zcubbs/grill/internal/logger"
 	"github.com/zcubbs/grill/internal/token"
 	"google.golang.org/grpc"
@@ -24,7 +26,9 @@ import (
 )
 
 type Server struct {
-	pb.UnimplementedGrillServiceServer
+	grillpb.UnimplementedGrillServiceServer
+	userPb.UnimplementedUserServiceServer
+	agentPb.UnimplementedAgentServiceServer
 
 	store      db.Store
 	tokenMaker token.Maker
@@ -64,7 +68,9 @@ func (s *Server) StartGrpcServer() {
 	}
 
 	grpcServer := grpc.NewServer(grpcLogger, tlsOpt)
-	pb.RegisterGrillServiceServer(grpcServer, s)
+	userPb.RegisterUserServiceServer(grpcServer, s)
+	agentPb.RegisterAgentServiceServer(grpcServer, s)
+	grillpb.RegisterGrillServiceServer(grpcServer, s)
 
 	if s.cfg.GrpcServer.EnableReflection {
 		reflection.Register(grpcServer)
@@ -87,7 +93,15 @@ func (s *Server) StartHttpGateway() {
 
 	grpcMux := newGrpcRuntimeServerMux()
 
-	err := pb.RegisterGrillServiceHandlerServer(ctx, grpcMux, s)
+	err := grillpb.RegisterGrillServiceHandlerServer(ctx, grpcMux, s)
+	if err != nil {
+		log.Fatal("cannot register handler server", "error", err)
+	}
+	err = userPb.RegisterUserServiceHandlerServer(ctx, grpcMux, s)
+	if err != nil {
+		log.Fatal("cannot register handler server", "error", err)
+	}
+	err = agentPb.RegisterAgentServiceHandlerServer(ctx, grpcMux, s)
 	if err != nil {
 		log.Fatal("cannot register handler server", "error", err)
 	}

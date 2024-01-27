@@ -7,9 +7,7 @@ vars:
   GO_PACKAGE: github.com/zcubbs/grill
   GO_PACKAGE_SHORT: grill
   SCRIPTS_DIR: scripts
-  PROTO_DIR: "proto"
-  PROTO_GEN_DIR: "proto/gen"
-  OPENAPI_GEN_DIR: "cmd/server/docs/swagger"
+  PROTO_DIRS: "proto"
 
 includes:
   scan: .taskfiles/scan.yaml

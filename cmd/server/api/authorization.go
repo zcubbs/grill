@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	db "github.com/zcubbs/grill/cmd/server/db/sqlc"
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	userPb "github.com/zcubbs/grill/gen/proto/go/user/v1"
 	"github.com/zcubbs/grill/internal/token"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
@@ -31,7 +31,7 @@ func (s *Server) requireUser(ctx context.Context) (*token.Payload, error) {
 		return nil, status.Errorf(codes.Internal, "failed to get user: %v", err)
 	}
 
-	if u.Role != pb.Role_ROLE_USER.String() && u.Role != pb.Role_ROLE_ADMIN.String() {
+	if u.Role != userPb.Role_ROLE_USER.String() && u.Role != userPb.Role_ROLE_ADMIN.String() {
 		return nil, status.Errorf(codes.PermissionDenied, "user lacks 'user' role")
 	}
 
@@ -49,7 +49,7 @@ func (s *Server) requireAdmin(ctx context.Context) (*token.Payload, error) {
 		return nil, status.Errorf(codes.Internal, "failed to get user: %v", err)
 	}
 
-	if u.Role != pb.Role_ROLE_ADMIN.String() {
+	if u.Role != userPb.Role_ROLE_ADMIN.String() {
 		return nil, status.Errorf(codes.PermissionDenied, "user is not an admin")
 	}
 

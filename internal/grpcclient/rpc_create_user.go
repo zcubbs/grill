@@ -1,8 +1,8 @@
 package grpcclient
 
-import pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+import userPb "github.com/zcubbs/grill/gen/proto/go/user/v1"
 
-func (s *Service) CreateUser(user *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
+func (s *Service) CreateUser(user *userPb.CreateUserRequest) (*userPb.CreateUserResponse, error) {
 	ctx, err := s.client.GetCtxWithAuth()
 	if err != nil {
 		return nil, err

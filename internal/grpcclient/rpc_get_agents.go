@@ -1,16 +1,16 @@
 package grpcclient
 
 import (
-	pb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
+	agentPb "github.com/zcubbs/grill/gen/proto/go/agent/v1"
 )
 
-func (s *Service) GetAgents() ([]*pb.Agent, error) {
+func (s *Service) GetAgents() ([]*agentPb.Agent, error) {
 	ctx, err := s.client.GetCtxWithAuth()
 	if err != nil {
 		return nil, err
 	}
 
-	response, err := s.client.GetAgents(ctx, &pb.GetAgentsRequest{})
+	response, err := s.client.GetAgents(ctx, &agentPb.GetAgentsRequest{})
 	if err != nil {
 		return nil, err
 	}

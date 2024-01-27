@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package agent.v1;
+
+import "agent/v1/agent.proto";
+
+message CreateAgentRequest {
+  string id = 1;
+  string name = 2;
+  string group = 3;
+  bool is_active = 4;
+}
+
+message CreateAgentResponse {
+  Agent agent = 1;
+}
+

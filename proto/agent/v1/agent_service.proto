@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package agent.v1;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "agent/v1/rpc_create_agent.proto";
+import "agent/v1/rpc_toggle_agent.proto";
+import "agent/v1/rpc_get_agents.proto";
+import "agent/v1/rpc_register_agent.proto";
+
+service AgentService {
+  rpc CreateAgent(CreateAgentRequest) returns (CreateAgentResponse){
+    option (google.api.http) = {
+      post: "/v1/create_agent"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Agent"
+      summary: "Create Agent";
+      description: "Create a new agent";
+    };
+  }
+
+  rpc ToggleAgent(ToggleAgentRequest) returns (ToggleAgentResponse){
+    option (google.api.http) = {
+      post: "/v1/toggle_agent"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Agent"
+      summary: "Toggle Agent";
+      description: "Toggle an agent's status";
+    };
+  }
+
+  rpc GetAgents(GetAgentsRequest) returns (GetAgentsResponse){
+    option (google.api.http) = {
+      get: "/v1/get_agents"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Agent"
+      summary: "Get Agents";
+      description: "Get all agents";
+    };
+  }
+
+  rpc RegisterAgent (RegisterAgentRequest) returns (RegisterAgentResponse){
+    option (google.api.http) = {
+      post: "/v1/agent/register"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Agent"
+      summary: "Register an agent"
+      description: "Register an agent with the server"
+      responses: {
+        key: "200"
+        value: {
+          description: "Success"
+          schema: {
+            json_schema: {type: STRING}
+          }
+        }
+      }
+    };
+  }
+}
