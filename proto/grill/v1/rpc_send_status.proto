@@ -8,6 +8,7 @@ message SendStatusRequest {
   string message = 3;
   string timestamp = 4;
   string version = 5;
+  string node_id = 7;
 }
 
 message SendStatusResponse {

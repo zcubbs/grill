@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package grill.v1;
+
+import "grill/v1/node.proto";
+
+message Cluster {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  Node nodes = 4;
+}

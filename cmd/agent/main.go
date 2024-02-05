@@ -86,7 +86,7 @@ func newScheduler(grpcCtx *ctx.Ctx) (gocron.Scheduler, error) {
 				if err != nil {
 					fmt.Println("ping failed: ", err)
 				}
-			}, grpcCtx.GrpcClient,
+			}, grpcCtx,
 		),
 		gocron.WithSingletonMode(gocron.LimitModeReschedule),
 		gocron.WithName("PingServerJob"),
@@ -104,9 +104,9 @@ func newScheduler(grpcCtx *ctx.Ctx) (gocron.Scheduler, error) {
 }
 
 func heartbeat(grpcCtx *ctx.Ctx) error {
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	timeoutCtx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 
-	_, err := grpcCtx.GrpcClient.Ping(ctx)
+	_, err := grpcCtx.GrpcClient.Ping(timeoutCtx)
 	return err
 }

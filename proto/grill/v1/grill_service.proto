@@ -4,6 +4,7 @@ package grill.v1;
 
 import "grill/v1/rpc_ping.proto";
 import "grill/v1/rpc_send_status.proto";
+import "grill/v1/rpc_get_clusters.proto";
 import "google/api/annotations.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
@@ -35,6 +36,17 @@ service GrillService {
       tags: "Grill"
       summary: "Send status to the server";
       description: "Send status to the server";
+    };
+  }
+
+  rpc GetClusters (GetClustersRequest) returns (GetClustersResponse){
+    option (google.api.http) = {
+      get: "/v1/clusters"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Grill"
+      summary: "Get clusters";
+      description: "Get clusters";
     };
   }
 
