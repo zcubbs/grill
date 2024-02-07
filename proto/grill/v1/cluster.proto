@@ -4,9 +4,14 @@ package grill.v1;
 
 import "grill/v1/node.proto";
 
+import "google/protobuf/timestamp.proto";
+
 message Cluster {
   string id = 1;
   string name = 2;
   string description = 3;
-  Node nodes = 4;
+  bool is_active = 4;
+  repeated Node nodes = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
 }

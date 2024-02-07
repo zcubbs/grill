@@ -22,6 +22,28 @@ type Agent struct {
 	LastConnection pgtype.Timestamptz `json:"last_connection"`
 }
 
+type Cluster struct {
+	ID          uuid.UUID `json:"id"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	IsActive    bool      `json:"is_active"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+}
+
+type Node struct {
+	ID        uuid.UUID `json:"id"`
+	Name      string    `json:"name"`
+	Ip        string    `json:"ip"`
+	Cpu       string    `json:"cpu"`
+	Memory    string    `json:"memory"`
+	Disk      string    `json:"disk"`
+	ClusterID uuid.UUID `json:"cluster_id"`
+	IsActive  bool      `json:"is_active"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
 type Session struct {
 	ID           uuid.UUID `json:"id"`
 	UserID       uuid.UUID `json:"user_id"`

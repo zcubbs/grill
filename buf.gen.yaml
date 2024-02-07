@@ -6,6 +6,7 @@ managed:
     except:
       - buf.build/googleapis/googleapis
       - buf.build/grpc-ecosystem/grpc-gateway
+      - buf.build/bufbuild/protovalidate
 plugins:
   - plugin: buf.build/protocolbuffers/go:v1.28.1
     revision: 4
@@ -28,5 +29,5 @@ plugins:
     strategy: all
     opt:
       - allow_repeated_fields_in_body=true
-      - allow_merge=true
+      - allow_merge=false
       - merge_file_name=api-docs

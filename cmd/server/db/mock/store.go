@@ -71,6 +71,36 @@ func (mr *MockStoreMockRecorder) CreateAgent(arg0, arg1 any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateAgent", reflect.TypeOf((*MockStore)(nil).CreateAgent), arg0, arg1)
 }
 
+// CreateCluster mocks base method.
+func (m *MockStore) CreateCluster(arg0 context.Context, arg1 db.CreateClusterParams) (db.Cluster, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateCluster", arg0, arg1)
+	ret0, _ := ret[0].(db.Cluster)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateCluster indicates an expected call of CreateCluster.
+func (mr *MockStoreMockRecorder) CreateCluster(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCluster", reflect.TypeOf((*MockStore)(nil).CreateCluster), arg0, arg1)
+}
+
+// CreateNode mocks base method.
+func (m *MockStore) CreateNode(arg0 context.Context, arg1 db.CreateNodeParams) (db.Node, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateNode", arg0, arg1)
+	ret0, _ := ret[0].(db.Node)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateNode indicates an expected call of CreateNode.
+func (mr *MockStoreMockRecorder) CreateNode(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateNode", reflect.TypeOf((*MockStore)(nil).CreateNode), arg0, arg1)
+}
+
 // CreateSession mocks base method.
 func (m *MockStore) CreateSession(arg0 context.Context, arg1 db.CreateSessionParams) (db.Session, error) {
 	m.ctrl.T.Helper()
@@ -146,6 +176,66 @@ func (mr *MockStoreMockRecorder) GetAllAgents(arg0 any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllAgents", reflect.TypeOf((*MockStore)(nil).GetAllAgents), arg0)
 }
 
+// GetAllClusters mocks base method.
+func (m *MockStore) GetAllClusters(arg0 context.Context) ([]db.Cluster, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAllClusters", arg0)
+	ret0, _ := ret[0].([]db.Cluster)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAllClusters indicates an expected call of GetAllClusters.
+func (mr *MockStoreMockRecorder) GetAllClusters(arg0 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllClusters", reflect.TypeOf((*MockStore)(nil).GetAllClusters), arg0)
+}
+
+// GetAllClustersActive mocks base method.
+func (m *MockStore) GetAllClustersActive(arg0 context.Context) ([]db.Cluster, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAllClustersActive", arg0)
+	ret0, _ := ret[0].([]db.Cluster)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAllClustersActive indicates an expected call of GetAllClustersActive.
+func (mr *MockStoreMockRecorder) GetAllClustersActive(arg0 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllClustersActive", reflect.TypeOf((*MockStore)(nil).GetAllClustersActive), arg0)
+}
+
+// GetAllNodes mocks base method.
+func (m *MockStore) GetAllNodes(arg0 context.Context) ([]db.Node, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAllNodes", arg0)
+	ret0, _ := ret[0].([]db.Node)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAllNodes indicates an expected call of GetAllNodes.
+func (mr *MockStoreMockRecorder) GetAllNodes(arg0 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllNodes", reflect.TypeOf((*MockStore)(nil).GetAllNodes), arg0)
+}
+
+// GetAllNodesActive mocks base method.
+func (m *MockStore) GetAllNodesActive(arg0 context.Context) ([]db.Node, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAllNodesActive", arg0)
+	ret0, _ := ret[0].([]db.Node)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAllNodesActive indicates an expected call of GetAllNodesActive.
+func (mr *MockStoreMockRecorder) GetAllNodesActive(arg0 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllNodesActive", reflect.TypeOf((*MockStore)(nil).GetAllNodesActive), arg0)
+}
+
 // GetAllUsers mocks base method.
 func (m *MockStore) GetAllUsers(arg0 context.Context) ([]db.User, error) {
 	m.ctrl.T.Helper()
@@ -159,6 +249,96 @@ func (m *MockStore) GetAllUsers(arg0 context.Context) ([]db.User, error) {
 func (mr *MockStoreMockRecorder) GetAllUsers(arg0 any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllUsers", reflect.TypeOf((*MockStore)(nil).GetAllUsers), arg0)
+}
+
+// GetCluster mocks base method.
+func (m *MockStore) GetCluster(arg0 context.Context, arg1 uuid.UUID) (db.Cluster, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCluster", arg0, arg1)
+	ret0, _ := ret[0].(db.Cluster)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetCluster indicates an expected call of GetCluster.
+func (mr *MockStoreMockRecorder) GetCluster(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCluster", reflect.TypeOf((*MockStore)(nil).GetCluster), arg0, arg1)
+}
+
+// GetClusterByName mocks base method.
+func (m *MockStore) GetClusterByName(arg0 context.Context, arg1 string) (db.Cluster, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetClusterByName", arg0, arg1)
+	ret0, _ := ret[0].(db.Cluster)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetClusterByName indicates an expected call of GetClusterByName.
+func (mr *MockStoreMockRecorder) GetClusterByName(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetClusterByName", reflect.TypeOf((*MockStore)(nil).GetClusterByName), arg0, arg1)
+}
+
+// GetNode mocks base method.
+func (m *MockStore) GetNode(arg0 context.Context, arg1 uuid.UUID) (db.Node, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetNode", arg0, arg1)
+	ret0, _ := ret[0].(db.Node)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetNode indicates an expected call of GetNode.
+func (mr *MockStoreMockRecorder) GetNode(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNode", reflect.TypeOf((*MockStore)(nil).GetNode), arg0, arg1)
+}
+
+// GetNodeByName mocks base method.
+func (m *MockStore) GetNodeByName(arg0 context.Context, arg1 string) (db.Node, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetNodeByName", arg0, arg1)
+	ret0, _ := ret[0].(db.Node)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetNodeByName indicates an expected call of GetNodeByName.
+func (mr *MockStoreMockRecorder) GetNodeByName(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNodeByName", reflect.TypeOf((*MockStore)(nil).GetNodeByName), arg0, arg1)
+}
+
+// GetNodesByCluster mocks base method.
+func (m *MockStore) GetNodesByCluster(arg0 context.Context, arg1 uuid.UUID) ([]db.Node, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetNodesByCluster", arg0, arg1)
+	ret0, _ := ret[0].([]db.Node)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetNodesByCluster indicates an expected call of GetNodesByCluster.
+func (mr *MockStoreMockRecorder) GetNodesByCluster(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNodesByCluster", reflect.TypeOf((*MockStore)(nil).GetNodesByCluster), arg0, arg1)
+}
+
+// GetNodesByClusterActive mocks base method.
+func (m *MockStore) GetNodesByClusterActive(arg0 context.Context, arg1 uuid.UUID) ([]db.Node, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetNodesByClusterActive", arg0, arg1)
+	ret0, _ := ret[0].([]db.Node)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetNodesByClusterActive indicates an expected call of GetNodesByClusterActive.
+func (mr *MockStoreMockRecorder) GetNodesByClusterActive(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNodesByClusterActive", reflect.TypeOf((*MockStore)(nil).GetNodesByClusterActive), arg0, arg1)
 }
 
 // GetSession mocks base method.
@@ -234,6 +414,36 @@ func (m *MockStore) GetUserByUsername(arg0 context.Context, arg1 string) (db.Use
 func (mr *MockStoreMockRecorder) GetUserByUsername(arg0, arg1 any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByUsername", reflect.TypeOf((*MockStore)(nil).GetUserByUsername), arg0, arg1)
+}
+
+// UpdateCluster mocks base method.
+func (m *MockStore) UpdateCluster(arg0 context.Context, arg1 db.UpdateClusterParams) (db.Cluster, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateCluster", arg0, arg1)
+	ret0, _ := ret[0].(db.Cluster)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateCluster indicates an expected call of UpdateCluster.
+func (mr *MockStoreMockRecorder) UpdateCluster(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCluster", reflect.TypeOf((*MockStore)(nil).UpdateCluster), arg0, arg1)
+}
+
+// UpdateNode mocks base method.
+func (m *MockStore) UpdateNode(arg0 context.Context, arg1 db.UpdateNodeParams) (db.Node, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateNode", arg0, arg1)
+	ret0, _ := ret[0].(db.Node)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateNode indicates an expected call of UpdateNode.
+func (mr *MockStoreMockRecorder) UpdateNode(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateNode", reflect.TypeOf((*MockStore)(nil).UpdateNode), arg0, arg1)
 }
 
 // UpdateUser mocks base method.

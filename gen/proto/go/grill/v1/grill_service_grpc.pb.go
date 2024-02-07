@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type GrillServiceClient interface {
 	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
 	SendStatus(ctx context.Context, in *SendStatusRequest, opts ...grpc.CallOption) (*SendStatusResponse, error)
+	GetClusters(ctx context.Context, in *GetClustersRequest, opts ...grpc.CallOption) (*GetClustersResponse, error)
 }
 
 type grillServiceClient struct {
@@ -52,12 +53,22 @@ func (c *grillServiceClient) SendStatus(ctx context.Context, in *SendStatusReque
 	return out, nil
 }
 
+func (c *grillServiceClient) GetClusters(ctx context.Context, in *GetClustersRequest, opts ...grpc.CallOption) (*GetClustersResponse, error) {
+	out := new(GetClustersResponse)
+	err := c.cc.Invoke(ctx, "/grill.v1.GrillService/GetClusters", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GrillServiceServer is the server API for GrillService service.
 // All implementations should embed UnimplementedGrillServiceServer
 // for forward compatibility
 type GrillServiceServer interface {
 	Ping(context.Context, *PingRequest) (*PingResponse, error)
 	SendStatus(context.Context, *SendStatusRequest) (*SendStatusResponse, error)
+	GetClusters(context.Context, *GetClustersRequest) (*GetClustersResponse, error)
 }
 
 // UnimplementedGrillServiceServer should be embedded to have forward compatible implementations.
@@ -69,6 +80,9 @@ func (UnimplementedGrillServiceServer) Ping(context.Context, *PingRequest) (*Pin
 }
 func (UnimplementedGrillServiceServer) SendStatus(context.Context, *SendStatusRequest) (*SendStatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendStatus not implemented")
+}
+func (UnimplementedGrillServiceServer) GetClusters(context.Context, *GetClustersRequest) (*GetClustersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetClusters not implemented")
 }
 
 // UnsafeGrillServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -118,6 +132,24 @@ func _GrillService_SendStatus_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GrillService_GetClusters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetClustersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GrillServiceServer).GetClusters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grill.v1.GrillService/GetClusters",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GrillServiceServer).GetClusters(ctx, req.(*GetClustersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GrillService_ServiceDesc is the grpc.ServiceDesc for GrillService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -132,6 +164,10 @@ var GrillService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SendStatus",
 			Handler:    _GrillService_SendStatus_Handler,
+		},
+		{
+			MethodName: "GetClusters",
+			Handler:    _GrillService_GetClusters_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

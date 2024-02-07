@@ -4,6 +4,7 @@ import (
 	"github.com/google/uuid"
 	db "github.com/zcubbs/grill/cmd/server/db/sqlc"
 	agentPb "github.com/zcubbs/grill/gen/proto/go/agent/v1"
+	grillPb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
 	userPb "github.com/zcubbs/grill/gen/proto/go/user/v1"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -53,4 +54,73 @@ func convertPbToAgent(agent *agentPb.Agent) db.Agent {
 		Scopes: agent.Scopes,
 		Active: agent.Active,
 	}
+}
+
+func convertClusterToPb(cluster db.Cluster) *grillPb.Cluster {
+	return &grillPb.Cluster{
+		Id:          cluster.ID.String(),
+		Name:        cluster.Name,
+		Description: cluster.Description,
+		IsActive:    cluster.IsActive,
+		CreatedAt:   nil,
+		UpdatedAt:   nil,
+	}
+}
+
+func convertPbToCluster(cluster *grillPb.Cluster) db.Cluster {
+	id, _ := uuid.Parse(cluster.Id)
+	return db.Cluster{
+		ID:          id,
+		Name:        cluster.Name,
+		Description: cluster.Description,
+		IsActive:    cluster.IsActive,
+	}
+}
+
+func convertNodeToPb(node db.Node) *grillPb.Node {
+	return &grillPb.Node{
+		Id:        node.ID.String(),
+		Name:      node.Name,
+		Ip:        node.Ip,
+		Cpu:       node.Cpu,
+		Memory:    node.Memory,
+		Disk:      node.Disk,
+		IsActive:  node.IsActive,
+		ClusterId: node.ClusterID.String(),
+		CreatedAt: timestamppb.New(node.CreatedAt),
+		UpdatedAt: timestamppb.New(node.UpdatedAt),
+	}
+}
+
+func convertPbToNode(node *grillPb.Node) db.Node {
+	id, _ := uuid.Parse(node.Id)
+	clusterId, _ := uuid.Parse(node.ClusterId)
+	return db.Node{
+		ID:        id,
+		Name:      node.Name,
+		Ip:        node.Ip,
+		Cpu:       node.Cpu,
+		Memory:    node.Memory,
+		Disk:      node.Disk,
+		ClusterID: clusterId,
+		IsActive:  node.IsActive,
+		CreatedAt: node.CreatedAt.AsTime(),
+		UpdatedAt: node.UpdatedAt.AsTime(),
+	}
+}
+
+func convertNodesToPb(nodes []db.Node) []*grillPb.Node {
+	var pbNodes []*grillPb.Node
+	for _, node := range nodes {
+		pbNodes = append(pbNodes, convertNodeToPb(node))
+	}
+	return pbNodes
+}
+
+func convertPbToNodes(nodes []*grillPb.Node) []db.Node {
+	var dbNodes []db.Node
+	for _, node := range nodes {
+		dbNodes = append(dbNodes, convertPbToNode(node))
+	}
+	return dbNodes
 }

@@ -9,6 +9,13 @@ import "agent/v1/rpc_toggle_agent.proto";
 import "agent/v1/rpc_get_agents.proto";
 import "agent/v1/rpc_register_agent.proto";
 
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Agent API";
+    version: "v1";
+  };
+};
+
 service AgentService {
   rpc CreateAgent(CreateAgentRequest) returns (CreateAgentResponse){
     option (google.api.http) = {

@@ -2,8 +2,8 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE agents (
   "id" UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  "name" TEXT UNIQUE NOT NULL,
-  "group" TEXT NOT NULL,
+  "name" VARCHAR(255) UNIQUE NOT NULL,
+  "group" VARCHAR(255) NOT NULL,
   "token" TEXT UNIQUE NOT NULL,
   "scopes" TEXT NOT NULL,
   "active" BOOLEAN NOT NULL DEFAULT FALSE,

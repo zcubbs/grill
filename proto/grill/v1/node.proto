@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package grill.v1;
 
+import "google/protobuf/timestamp.proto";
+
 message Node {
   string id = 1;
   string name = 2;
@@ -9,7 +11,8 @@ message Node {
   string cpu = 4;
   string memory = 5;
   string disk = 6;
-  string status = 7;
-  string created_at = 8;
-  string updated_at = 9;
+  bool is_active = 8;
+  string cluster_id = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
 }
