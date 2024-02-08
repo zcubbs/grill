@@ -7,7 +7,6 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 import "agent/v1/rpc_create_agent.proto";
 import "agent/v1/rpc_toggle_agent.proto";
 import "agent/v1/rpc_get_agents.proto";
-import "agent/v1/rpc_register_agent.proto";
 
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   info: {
@@ -49,27 +48,6 @@ service AgentService {
       tags: "Agent"
       summary: "Get Agents";
       description: "Get all agents";
-    };
-  }
-
-  rpc RegisterAgent (RegisterAgentRequest) returns (RegisterAgentResponse){
-    option (google.api.http) = {
-      post: "/v1/agent/register"
-      body: "*"
-    };
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      tags: "Agent"
-      summary: "Register an agent"
-      description: "Register an agent with the server"
-      responses: {
-        key: "200"
-        value: {
-          description: "Success"
-          schema: {
-            json_schema: {type: STRING}
-          }
-        }
-      }
     };
   }
 }

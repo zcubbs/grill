@@ -43,7 +43,7 @@ func getAgents() (err error) {
 		rows = append(rows, []interface{}{
 			agent.Id,
 			agent.Name,
-			agent.Active,
+			agent.IsActive,
 			agent.Group,
 			agent.Token,
 			agent.Scopes,

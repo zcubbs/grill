@@ -4,7 +4,7 @@ package agent.v1;
 
 message ToggleAgentRequest {
   string id = 1;
-  bool active = 2;
+  bool is_active = 2;
 }
 
 message ToggleAgentResponse {

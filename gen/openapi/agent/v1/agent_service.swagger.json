@@ -16,41 +16,6 @@
     "application/json"
   ],
   "paths": {
-    "/v1/agent/register": {
-      "post": {
-        "summary": "Register an agent",
-        "description": "Register an agent with the server",
-        "operationId": "AgentService_RegisterAgent",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "string",
-              "format": "string"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1RegisterAgentRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Agent"
-        ]
-      }
-    },
     "/v1/create_agent": {
       "post": {
         "summary": "Create Agent",
@@ -182,7 +147,7 @@
         "name": {
           "type": "string"
         },
-        "active": {
+        "isActive": {
           "type": "boolean"
         },
         "group": {
@@ -241,32 +206,13 @@
         }
       }
     },
-    "v1RegisterAgentRequest": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "type": "string"
-        }
-      }
-    },
-    "v1RegisterAgentResponse": {
-      "type": "object",
-      "properties": {
-        "agentId": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
-        }
-      }
-    },
     "v1ToggleAgentRequest": {
       "type": "object",
       "properties": {
         "id": {
           "type": "string"
         },
-        "active": {
+        "isActive": {
           "type": "boolean"
         }
       }

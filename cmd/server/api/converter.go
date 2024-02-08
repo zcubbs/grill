@@ -35,7 +35,7 @@ func convertAgentToPb(agent db.Agent) *agentPb.Agent {
 	return &agentPb.Agent{
 		Id:             agent.ID.String(),
 		Name:           agent.Name,
-		Active:         agent.Active,
+		IsActive:       agent.Active,
 		Group:          agent.Group,
 		Token:          agent.Token,
 		Scopes:         agent.Scopes,
@@ -52,7 +52,7 @@ func convertPbToAgent(agent *agentPb.Agent) db.Agent {
 		Group:  agent.Group,
 		Token:  agent.Token,
 		Scopes: agent.Scopes,
-		Active: agent.Active,
+		Active: agent.IsActive,
 	}
 }
 

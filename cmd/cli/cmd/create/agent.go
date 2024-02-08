@@ -45,7 +45,7 @@ func createAgent() (err error) {
 		"id", resp.Agent.Id,
 		"name", resp.Agent.Name,
 		"group", resp.Agent.Group,
-		"active", resp.Agent.Active,
+		"active", resp.Agent.IsActive,
 		"scopes", resp.Agent.Scopes,
 		"token", resp.Agent.Token,
 	)
