@@ -8,4 +8,4 @@
 
 # Architecture
 
-[](docs/assets/architecture.png)
+![](docs/assets/architecture.png)
