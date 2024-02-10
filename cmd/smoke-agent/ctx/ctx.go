@@ -1,7 +1,7 @@
 package ctx
 
 import (
-	"github.com/zcubbs/grill/cmd/agent/config"
+	"github.com/zcubbs/grill/cmd/smoke-agent/config"
 	"github.com/zcubbs/grill/internal/grpcclient"
 )
 

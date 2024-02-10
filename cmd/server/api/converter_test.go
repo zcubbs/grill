@@ -1,6 +1,7 @@
 package api
 
 import (
+	grillPb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"testing"
 	"time"
@@ -60,11 +61,9 @@ func TestConvertPbToUser(t *testing.T) {
 func TestConvertPbToAgent(t *testing.T) {
 	// Setup
 	pbAgent := &agentPb.Agent{
-		Name:   "testAgent",
-		Active: false,
-		Group:  "testGroup",
-		Token:  "testToken",
-		Scopes: "testScopes",
+		Name:    "testAgent",
+		Version: "testVersion",
+		Token:   "testToken",
 	}
 
 	// Call the function
@@ -72,8 +71,109 @@ func TestConvertPbToAgent(t *testing.T) {
 
 	// Assertions
 	assert.Equal(t, pbAgent.GetName(), dbAgent.Name)
-	assert.Equal(t, pbAgent.GetActive(), dbAgent.Active)
-	assert.Equal(t, pbAgent.GetGroup(), dbAgent.Group)
+	assert.Equal(t, pbAgent.GetVersion(), dbAgent.Version)
 	assert.Equal(t, pbAgent.GetToken(), dbAgent.Token)
-	assert.Equal(t, pbAgent.GetScopes(), dbAgent.Scopes)
+}
+
+func TestConvertAgentToPb(t *testing.T) {
+	// Setup
+	dbAgent := db.Agent{
+		Name: "testAgent",
+	}
+
+	// Call the function
+	pbAgent := convertAgentToPb(dbAgent)
+
+	// Assertions
+	assert.Equal(t, dbAgent.Name, pbAgent.GetName())
+}
+
+func TestConvertClusterToPb(t *testing.T) {
+	// Setup
+	dbCluster := db.Cluster{
+		Name: "testCluster",
+	}
+
+	// Call the function
+	pbCluster := convertClusterToPb(dbCluster)
+
+	// Assertions
+	assert.Equal(t, dbCluster.Name, pbCluster.GetName())
+}
+
+func TestConvertPbToCluster(t *testing.T) {
+	// Setup
+	pbCluster := &grillPb.Cluster{
+		Name: "testCluster",
+	}
+
+	// Call the function
+	dbCluster := convertPbToCluster(pbCluster)
+
+	// Assertions
+	assert.Equal(t, pbCluster.GetName(), dbCluster.Name)
+
+}
+func TestConvertPbToNode(t *testing.T) {
+	// Setup
+	pbNode := &grillPb.Node{
+		Name: "testNode",
+	}
+
+	// Call the function
+	dbNode := convertPbToNode(pbNode)
+
+	// Assertions
+	assert.Equal(t, pbNode.GetName(), dbNode.Name)
+}
+
+func TestConvertNodeToPb(t *testing.T) {
+	// Setup
+	dbNode := db.Node{
+		Name: "testNode",
+	}
+
+	// Call the function
+	pbNode := convertNodeToPb(dbNode)
+
+	// Assertions
+	assert.Equal(t, dbNode.Name, pbNode.GetName())
+}
+
+func Test_convertPbToNodes(t *testing.T) {
+	// Setup
+	pbNodes := []*grillPb.Node{
+		{
+			Name: "testNode1",
+		},
+		{
+			Name: "testNode2",
+		},
+	}
+
+	// Call the function
+	dbNodes := convertPbToNodes(pbNodes)
+
+	// Assertions
+	assert.Equal(t, pbNodes[0].GetName(), dbNodes[0].Name)
+	assert.Equal(t, pbNodes[1].GetName(), dbNodes[1].Name)
+}
+
+func Test_convertNodesToPb(t *testing.T) {
+	// Setup
+	dbNodes := []db.Node{
+		{
+			Name: "testNode1",
+		},
+		{
+			Name: "testNode2",
+		},
+	}
+
+	// Call the function
+	pbNodes := convertNodesToPb(dbNodes)
+
+	// Assertions
+	assert.Equal(t, dbNodes[0].Name, pbNodes[0].GetName())
+	assert.Equal(t, dbNodes[1].Name, pbNodes[1].GetName())
 }
