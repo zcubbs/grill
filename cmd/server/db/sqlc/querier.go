@@ -36,6 +36,7 @@ type Querier interface {
 	GetUser(ctx context.Context, id uuid.UUID) (User, error)
 	GetUserByEmail(ctx context.Context, email string) (User, error)
 	GetUserByUsername(ctx context.Context, username string) (User, error)
+	UpdateAgentLastConnection(ctx context.Context, arg UpdateAgentLastConnectionParams) (Agent, error)
 	UpdateCluster(ctx context.Context, arg UpdateClusterParams) (Cluster, error)
 	UpdateNode(ctx context.Context, arg UpdateNodeParams) (Node, error)
 	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)

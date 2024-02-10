@@ -416,6 +416,21 @@ func (mr *MockStoreMockRecorder) GetUserByUsername(arg0, arg1 any) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByUsername", reflect.TypeOf((*MockStore)(nil).GetUserByUsername), arg0, arg1)
 }
 
+// UpdateAgentLastConnection mocks base method.
+func (m *MockStore) UpdateAgentLastConnection(arg0 context.Context, arg1 db.UpdateAgentLastConnectionParams) (db.Agent, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateAgentLastConnection", arg0, arg1)
+	ret0, _ := ret[0].(db.Agent)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateAgentLastConnection indicates an expected call of UpdateAgentLastConnection.
+func (mr *MockStoreMockRecorder) UpdateAgentLastConnection(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateAgentLastConnection", reflect.TypeOf((*MockStore)(nil).UpdateAgentLastConnection), arg0, arg1)
+}
+
 // UpdateCluster mocks base method.
 func (m *MockStore) UpdateCluster(arg0 context.Context, arg1 db.UpdateClusterParams) (db.Cluster, error) {
 	m.ctrl.T.Helper()

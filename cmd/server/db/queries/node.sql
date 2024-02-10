@@ -36,11 +36,16 @@ UPDATE nodes
 SET
   name = COALESCE(sqlc.narg(name), name),
   ip = COALESCE(sqlc.narg(ip), ip),
+  os = COALESCE(sqlc.narg(os), os),
+  arch = COALESCE(sqlc.narg(arch), arch),
+  mac_address = COALESCE(sqlc.narg(mac_address), mac_address),
   cpu = COALESCE(sqlc.narg(cpu), cpu),
   memory = COALESCE(sqlc.narg(memory), memory),
   disk = COALESCE(sqlc.narg(disk), disk),
+  agent_id = COALESCE(sqlc.narg(agent_id), agent_id),
   cluster_id = COALESCE(sqlc.narg(cluster_id), cluster_id),
-  is_active = COALESCE(sqlc.narg(is_active), is_active)
+  is_active = COALESCE(sqlc.narg(is_active), is_active),
+  updated_at = current_timestamp
 WHERE
   id = sqlc.arg(id)
   RETURNING *;

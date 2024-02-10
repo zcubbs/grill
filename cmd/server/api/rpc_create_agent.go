@@ -24,11 +24,11 @@ func (s *Server) CreateAgent(ctx context.Context, req *agentPb.CreateAgentReques
 
 	// Prepare parameters for the database function.
 	params := db.CreateAgentParams{
-		Name:   req.GetName(),
-		Token:  random.RandomString(32),
-		Group:  req.GetGroup(),
-		Scopes: "all",
-		Active: req.GetIsActive(),
+		Name:     req.GetName(),
+		Token:    random.RandomString(32),
+		Group:    req.GetGroup(),
+		Scopes:   "all",
+		IsActive: req.GetIsActive(),
 	}
 
 	// Use the Store interface to save the user details to the database.

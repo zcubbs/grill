@@ -44,10 +44,9 @@ func createAgent() (err error) {
 	log.Info("Agent created",
 		"id", resp.Agent.Id,
 		"name", resp.Agent.Name,
-		"group", resp.Agent.Group,
 		"active", resp.Agent.IsActive,
-		"scopes", resp.Agent.Scopes,
 		"token", resp.Agent.Token,
+		"version", resp.Agent.Version,
 	)
 
 	return nil

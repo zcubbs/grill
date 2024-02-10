@@ -150,16 +150,17 @@
         "isActive": {
           "type": "boolean"
         },
-        "group": {
-          "type": "string"
-        },
         "token": {
           "type": "string"
         },
-        "scopes": {
+        "version": {
           "type": "string"
         },
         "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
           "type": "string",
           "format": "date-time"
         },

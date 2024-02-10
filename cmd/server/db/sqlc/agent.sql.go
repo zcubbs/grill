@@ -13,43 +13,41 @@ import (
 
 const createAgent = `-- name: CreateAgent :one
 INSERT INTO agents
-(name,"group",token,scopes,active)
-VALUES ($1, $2, $3, $4, $5)
-RETURNING id, name, "group", token, scopes, active, created_at, last_connection
+(name,token,version,is_active)
+VALUES ($1, $2, $3, $4)
+RETURNING id, name, token, is_active, version, created_at, updated_at, last_connection
 `
 
 type CreateAgentParams struct {
-	Name   string `json:"name"`
-	Group  string `json:"group"`
-	Token  string `json:"token"`
-	Scopes string `json:"scopes"`
-	Active bool   `json:"active"`
+	Name     string `json:"name"`
+	Token    string `json:"token"`
+	Version  string `json:"version"`
+	IsActive bool   `json:"is_active"`
 }
 
 func (q *Queries) CreateAgent(ctx context.Context, arg CreateAgentParams) (Agent, error) {
 	row := q.db.QueryRow(ctx, createAgent,
 		arg.Name,
-		arg.Group,
 		arg.Token,
-		arg.Scopes,
-		arg.Active,
+		arg.Version,
+		arg.IsActive,
 	)
 	var i Agent
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
-		&i.Group,
 		&i.Token,
-		&i.Scopes,
-		&i.Active,
+		&i.IsActive,
+		&i.Version,
 		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.LastConnection,
 	)
 	return i, err
 }
 
 const getAgent = `-- name: GetAgent :one
-SELECT id, name, "group", token, scopes, active, created_at, last_connection FROM agents WHERE id = $1
+SELECT id, name, token, is_active, version, created_at, updated_at, last_connection FROM agents WHERE id = $1
 `
 
 func (q *Queries) GetAgent(ctx context.Context, id uuid.UUID) (Agent, error) {
@@ -58,18 +56,18 @@ func (q *Queries) GetAgent(ctx context.Context, id uuid.UUID) (Agent, error) {
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
-		&i.Group,
 		&i.Token,
-		&i.Scopes,
-		&i.Active,
+		&i.IsActive,
+		&i.Version,
 		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.LastConnection,
 	)
 	return i, err
 }
 
 const getAgentByToken = `-- name: GetAgentByToken :one
-SELECT id, name, "group", token, scopes, active, created_at, last_connection FROM agents WHERE token = $1
+SELECT id, name, token, is_active, version, created_at, updated_at, last_connection FROM agents WHERE token = $1
 `
 
 func (q *Queries) GetAgentByToken(ctx context.Context, token string) (Agent, error) {
@@ -78,18 +76,18 @@ func (q *Queries) GetAgentByToken(ctx context.Context, token string) (Agent, err
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
-		&i.Group,
 		&i.Token,
-		&i.Scopes,
-		&i.Active,
+		&i.IsActive,
+		&i.Version,
 		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.LastConnection,
 	)
 	return i, err
 }
 
 const getAllAgents = `-- name: GetAllAgents :many
-SELECT id, name, "group", token, scopes, active, created_at, last_connection FROM agents
+SELECT id, name, token, is_active, version, created_at, updated_at, last_connection FROM agents
 ORDER BY name
 `
 
@@ -105,11 +103,11 @@ func (q *Queries) GetAllAgents(ctx context.Context) ([]Agent, error) {
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
-			&i.Group,
 			&i.Token,
-			&i.Scopes,
-			&i.Active,
+			&i.IsActive,
+			&i.Version,
 			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.LastConnection,
 		); err != nil {
 			return nil, err
@@ -120,4 +118,35 @@ func (q *Queries) GetAllAgents(ctx context.Context) ([]Agent, error) {
 		return nil, err
 	}
 	return items, nil
+}
+
+const updateAgentLastConnection = `-- name: UpdateAgentLastConnection :one
+UPDATE agents
+SET
+  version = $2,
+  last_connection = current_timestamp,
+  updated_at = current_timestamp
+WHERE id = $1
+RETURNING id, name, token, is_active, version, created_at, updated_at, last_connection
+`
+
+type UpdateAgentLastConnectionParams struct {
+	ID      uuid.UUID `json:"id"`
+	Version string    `json:"version"`
+}
+
+func (q *Queries) UpdateAgentLastConnection(ctx context.Context, arg UpdateAgentLastConnectionParams) (Agent, error) {
+	row := q.db.QueryRow(ctx, updateAgentLastConnection, arg.ID, arg.Version)
+	var i Agent
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Token,
+		&i.IsActive,
+		&i.Version,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.LastConnection,
+	)
+	return i, err
 }

@@ -35,11 +35,11 @@ func convertAgentToPb(agent db.Agent) *agentPb.Agent {
 	return &agentPb.Agent{
 		Id:             agent.ID.String(),
 		Name:           agent.Name,
-		IsActive:       agent.Active,
-		Group:          agent.Group,
+		IsActive:       agent.IsActive,
 		Token:          agent.Token,
-		Scopes:         agent.Scopes,
+		Version:        agent.Version,
 		CreatedAt:      timestamppb.New(agent.CreatedAt),
+		UpdatedAt:      timestamppb.New(agent.UpdatedAt),
 		LastConnection: timestamppb.New(agent.LastConnection.Time),
 	}
 }
@@ -47,12 +47,11 @@ func convertAgentToPb(agent db.Agent) *agentPb.Agent {
 func convertPbToAgent(agent *agentPb.Agent) db.Agent {
 	id, _ := uuid.Parse(agent.Id)
 	return db.Agent{
-		ID:     id,
-		Name:   agent.Name,
-		Group:  agent.Group,
-		Token:  agent.Token,
-		Scopes: agent.Scopes,
-		Active: agent.IsActive,
+		ID:       id,
+		Name:     agent.Name,
+		Token:    agent.Token,
+		IsActive: agent.IsActive,
+		Version:  agent.Version,
 	}
 }
 
@@ -61,9 +60,8 @@ func convertClusterToPb(cluster db.Cluster) *grillPb.Cluster {
 		Id:          cluster.ID.String(),
 		Name:        cluster.Name,
 		Description: cluster.Description,
-		IsActive:    cluster.IsActive,
-		CreatedAt:   nil,
-		UpdatedAt:   nil,
+		CreatedAt:   timestamppb.New(cluster.CreatedAt),
+		UpdatedAt:   timestamppb.New(cluster.UpdatedAt),
 	}
 }
 
@@ -73,7 +71,6 @@ func convertPbToCluster(cluster *grillPb.Cluster) db.Cluster {
 		ID:          id,
 		Name:        cluster.Name,
 		Description: cluster.Description,
-		IsActive:    cluster.IsActive,
 	}
 }
 

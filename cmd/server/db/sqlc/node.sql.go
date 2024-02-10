@@ -19,7 +19,7 @@ INSERT INTO nodes (
   is_active
 ) VALUES (
  $1, $2, $3
-) RETURNING id, name, ip, cpu, memory, disk, cluster_id, is_active, created_at, updated_at
+) RETURNING id, name, ip, os, arch, mac_address, cpu, memory, disk, cluster_id, is_active, agent_id, created_at, updated_at
 `
 
 type CreateNodeParams struct {
@@ -35,11 +35,15 @@ func (q *Queries) CreateNode(ctx context.Context, arg CreateNodeParams) (Node, e
 		&i.ID,
 		&i.Name,
 		&i.Ip,
+		&i.Os,
+		&i.Arch,
+		&i.MacAddress,
 		&i.Cpu,
 		&i.Memory,
 		&i.Disk,
 		&i.ClusterID,
 		&i.IsActive,
+		&i.AgentID,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 	)
@@ -47,7 +51,7 @@ func (q *Queries) CreateNode(ctx context.Context, arg CreateNodeParams) (Node, e
 }
 
 const getAllNodes = `-- name: GetAllNodes :many
-SELECT id, name, ip, cpu, memory, disk, cluster_id, is_active, created_at, updated_at FROM nodes
+SELECT id, name, ip, os, arch, mac_address, cpu, memory, disk, cluster_id, is_active, agent_id, created_at, updated_at FROM nodes
 `
 
 func (q *Queries) GetAllNodes(ctx context.Context) ([]Node, error) {
@@ -63,11 +67,15 @@ func (q *Queries) GetAllNodes(ctx context.Context) ([]Node, error) {
 			&i.ID,
 			&i.Name,
 			&i.Ip,
+			&i.Os,
+			&i.Arch,
+			&i.MacAddress,
 			&i.Cpu,
 			&i.Memory,
 			&i.Disk,
 			&i.ClusterID,
 			&i.IsActive,
+			&i.AgentID,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 		); err != nil {
@@ -82,7 +90,7 @@ func (q *Queries) GetAllNodes(ctx context.Context) ([]Node, error) {
 }
 
 const getAllNodesActive = `-- name: GetAllNodesActive :many
-SELECT id, name, ip, cpu, memory, disk, cluster_id, is_active, created_at, updated_at FROM nodes
+SELECT id, name, ip, os, arch, mac_address, cpu, memory, disk, cluster_id, is_active, agent_id, created_at, updated_at FROM nodes
 WHERE is_active = true
 `
 
@@ -99,11 +107,15 @@ func (q *Queries) GetAllNodesActive(ctx context.Context) ([]Node, error) {
 			&i.ID,
 			&i.Name,
 			&i.Ip,
+			&i.Os,
+			&i.Arch,
+			&i.MacAddress,
 			&i.Cpu,
 			&i.Memory,
 			&i.Disk,
 			&i.ClusterID,
 			&i.IsActive,
+			&i.AgentID,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 		); err != nil {
@@ -118,7 +130,7 @@ func (q *Queries) GetAllNodesActive(ctx context.Context) ([]Node, error) {
 }
 
 const getNode = `-- name: GetNode :one
-SELECT id, name, ip, cpu, memory, disk, cluster_id, is_active, created_at, updated_at FROM nodes
+SELECT id, name, ip, os, arch, mac_address, cpu, memory, disk, cluster_id, is_active, agent_id, created_at, updated_at FROM nodes
 WHERE id = $1 LIMIT 1
 `
 
@@ -129,11 +141,15 @@ func (q *Queries) GetNode(ctx context.Context, id uuid.UUID) (Node, error) {
 		&i.ID,
 		&i.Name,
 		&i.Ip,
+		&i.Os,
+		&i.Arch,
+		&i.MacAddress,
 		&i.Cpu,
 		&i.Memory,
 		&i.Disk,
 		&i.ClusterID,
 		&i.IsActive,
+		&i.AgentID,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 	)
@@ -141,7 +157,7 @@ func (q *Queries) GetNode(ctx context.Context, id uuid.UUID) (Node, error) {
 }
 
 const getNodeByName = `-- name: GetNodeByName :one
-SELECT id, name, ip, cpu, memory, disk, cluster_id, is_active, created_at, updated_at FROM nodes
+SELECT id, name, ip, os, arch, mac_address, cpu, memory, disk, cluster_id, is_active, agent_id, created_at, updated_at FROM nodes
 WHERE name = $1 LIMIT 1
 `
 
@@ -152,11 +168,15 @@ func (q *Queries) GetNodeByName(ctx context.Context, name string) (Node, error) 
 		&i.ID,
 		&i.Name,
 		&i.Ip,
+		&i.Os,
+		&i.Arch,
+		&i.MacAddress,
 		&i.Cpu,
 		&i.Memory,
 		&i.Disk,
 		&i.ClusterID,
 		&i.IsActive,
+		&i.AgentID,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 	)
@@ -164,7 +184,7 @@ func (q *Queries) GetNodeByName(ctx context.Context, name string) (Node, error) 
 }
 
 const getNodesByCluster = `-- name: GetNodesByCluster :many
-SELECT id, name, ip, cpu, memory, disk, cluster_id, is_active, created_at, updated_at FROM nodes
+SELECT id, name, ip, os, arch, mac_address, cpu, memory, disk, cluster_id, is_active, agent_id, created_at, updated_at FROM nodes
 WHERE cluster_id = $1
 `
 
@@ -181,11 +201,15 @@ func (q *Queries) GetNodesByCluster(ctx context.Context, clusterID uuid.UUID) ([
 			&i.ID,
 			&i.Name,
 			&i.Ip,
+			&i.Os,
+			&i.Arch,
+			&i.MacAddress,
 			&i.Cpu,
 			&i.Memory,
 			&i.Disk,
 			&i.ClusterID,
 			&i.IsActive,
+			&i.AgentID,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 		); err != nil {
@@ -200,7 +224,7 @@ func (q *Queries) GetNodesByCluster(ctx context.Context, clusterID uuid.UUID) ([
 }
 
 const getNodesByClusterActive = `-- name: GetNodesByClusterActive :many
-SELECT id, name, ip, cpu, memory, disk, cluster_id, is_active, created_at, updated_at FROM nodes
+SELECT id, name, ip, os, arch, mac_address, cpu, memory, disk, cluster_id, is_active, agent_id, created_at, updated_at FROM nodes
 WHERE cluster_id = $1
 AND is_active = true
 `
@@ -218,11 +242,15 @@ func (q *Queries) GetNodesByClusterActive(ctx context.Context, clusterID uuid.UU
 			&i.ID,
 			&i.Name,
 			&i.Ip,
+			&i.Os,
+			&i.Arch,
+			&i.MacAddress,
 			&i.Cpu,
 			&i.Memory,
 			&i.Disk,
 			&i.ClusterID,
 			&i.IsActive,
+			&i.AgentID,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 		); err != nil {
@@ -241,34 +269,47 @@ UPDATE nodes
 SET
   name = COALESCE($1, name),
   ip = COALESCE($2, ip),
-  cpu = COALESCE($3, cpu),
-  memory = COALESCE($4, memory),
-  disk = COALESCE($5, disk),
-  cluster_id = COALESCE($6, cluster_id),
-  is_active = COALESCE($7, is_active)
+  os = COALESCE($3, os),
+  arch = COALESCE($4, arch),
+  mac_address = COALESCE($5, mac_address),
+  cpu = COALESCE($6, cpu),
+  memory = COALESCE($7, memory),
+  disk = COALESCE($8, disk),
+  agent_id = COALESCE($9, agent_id),
+  cluster_id = COALESCE($10, cluster_id),
+  is_active = COALESCE($11, is_active),
+  updated_at = current_timestamp
 WHERE
-  id = $8
-  RETURNING id, name, ip, cpu, memory, disk, cluster_id, is_active, created_at, updated_at
+  id = $12
+  RETURNING id, name, ip, os, arch, mac_address, cpu, memory, disk, cluster_id, is_active, agent_id, created_at, updated_at
 `
 
 type UpdateNodeParams struct {
-	Name      pgtype.Text `json:"name"`
-	Ip        pgtype.Text `json:"ip"`
-	Cpu       pgtype.Text `json:"cpu"`
-	Memory    pgtype.Text `json:"memory"`
-	Disk      pgtype.Text `json:"disk"`
-	ClusterID pgtype.UUID `json:"cluster_id"`
-	IsActive  pgtype.Bool `json:"is_active"`
-	ID        uuid.UUID   `json:"id"`
+	Name       pgtype.Text `json:"name"`
+	Ip         pgtype.Text `json:"ip"`
+	Os         pgtype.Text `json:"os"`
+	Arch       pgtype.Text `json:"arch"`
+	MacAddress pgtype.Text `json:"mac_address"`
+	Cpu        pgtype.Text `json:"cpu"`
+	Memory     pgtype.Text `json:"memory"`
+	Disk       pgtype.Text `json:"disk"`
+	AgentID    pgtype.UUID `json:"agent_id"`
+	ClusterID  pgtype.UUID `json:"cluster_id"`
+	IsActive   pgtype.Bool `json:"is_active"`
+	ID         uuid.UUID   `json:"id"`
 }
 
 func (q *Queries) UpdateNode(ctx context.Context, arg UpdateNodeParams) (Node, error) {
 	row := q.db.QueryRow(ctx, updateNode,
 		arg.Name,
 		arg.Ip,
+		arg.Os,
+		arg.Arch,
+		arg.MacAddress,
 		arg.Cpu,
 		arg.Memory,
 		arg.Disk,
+		arg.AgentID,
 		arg.ClusterID,
 		arg.IsActive,
 		arg.ID,
@@ -278,11 +319,15 @@ func (q *Queries) UpdateNode(ctx context.Context, arg UpdateNodeParams) (Node, e
 		&i.ID,
 		&i.Name,
 		&i.Ip,
+		&i.Os,
+		&i.Arch,
+		&i.MacAddress,
 		&i.Cpu,
 		&i.Memory,
 		&i.Disk,
 		&i.ClusterID,
 		&i.IsActive,
+		&i.AgentID,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 	)

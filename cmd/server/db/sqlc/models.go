@@ -14,11 +14,11 @@ import (
 type Agent struct {
 	ID             uuid.UUID          `json:"id"`
 	Name           string             `json:"name"`
-	Group          string             `json:"group"`
 	Token          string             `json:"token"`
-	Scopes         string             `json:"scopes"`
-	Active         bool               `json:"active"`
+	IsActive       bool               `json:"is_active"`
+	Version        string             `json:"version"`
 	CreatedAt      time.Time          `json:"created_at"`
+	UpdatedAt      time.Time          `json:"updated_at"`
 	LastConnection pgtype.Timestamptz `json:"last_connection"`
 }
 
@@ -32,16 +32,20 @@ type Cluster struct {
 }
 
 type Node struct {
-	ID        uuid.UUID `json:"id"`
-	Name      string    `json:"name"`
-	Ip        string    `json:"ip"`
-	Cpu       string    `json:"cpu"`
-	Memory    string    `json:"memory"`
-	Disk      string    `json:"disk"`
-	ClusterID uuid.UUID `json:"cluster_id"`
-	IsActive  bool      `json:"is_active"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID         uuid.UUID `json:"id"`
+	Name       string    `json:"name"`
+	Ip         string    `json:"ip"`
+	Os         string    `json:"os"`
+	Arch       string    `json:"arch"`
+	MacAddress string    `json:"mac_address"`
+	Cpu        string    `json:"cpu"`
+	Memory     string    `json:"memory"`
+	Disk       string    `json:"disk"`
+	ClusterID  uuid.UUID `json:"cluster_id"`
+	IsActive   bool      `json:"is_active"`
+	AgentID    uuid.UUID `json:"agent_id"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
 }
 
 type Session struct {

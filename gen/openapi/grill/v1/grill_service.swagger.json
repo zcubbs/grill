@@ -148,9 +148,6 @@
         "description": {
           "type": "string"
         },
-        "isActive": {
-          "type": "boolean"
-        },
         "nodes": {
           "type": "array",
           "items": {
@@ -190,6 +187,15 @@
           "type": "string"
         },
         "ip": {
+          "type": "string"
+        },
+        "os": {
+          "type": "string"
+        },
+        "arch": {
+          "type": "string"
+        },
+        "macAddress": {
           "type": "string"
         },
         "cpu": {

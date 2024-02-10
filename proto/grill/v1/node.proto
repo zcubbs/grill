@@ -8,11 +8,14 @@ message Node {
   string id = 1;
   string name = 2;
   string ip = 3;
-  string cpu = 4;
-  string memory = 5;
-  string disk = 6;
-  bool is_active = 8;
-  string cluster_id = 9;
-  google.protobuf.Timestamp created_at = 10;
-  google.protobuf.Timestamp updated_at = 11;
+  string os = 4;
+  string arch = 5;
+  string mac_address = 6;
+  string cpu = 7;
+  string memory = 8;
+  string disk = 9;
+  bool is_active = 10;
+  string cluster_id = 11;
+  google.protobuf.Timestamp created_at = 12;
+  google.protobuf.Timestamp updated_at = 13;
 }
