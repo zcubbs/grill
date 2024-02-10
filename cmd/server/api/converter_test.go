@@ -71,7 +71,7 @@ func TestConvertPbToAgent(t *testing.T) {
 
 	// Assertions
 	assert.Equal(t, pbAgent.GetName(), dbAgent.Name)
-	assert.Equal(t, pbAgent.GetVersion(), dbAgent.Version)
+	assert.Equal(t, pbAgent.GetVersion(), dbAgent.Version.String)
 	assert.Equal(t, pbAgent.GetToken(), dbAgent.Token)
 }
 
