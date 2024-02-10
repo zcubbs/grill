@@ -15,27 +15,24 @@ import (
 const createCluster = `-- name: CreateCluster :one
 INSERT INTO clusters (
   name,
-  description,
-  is_active
+  description
 ) VALUES (
- $1, $2, $3
-) RETURNING id, name, description, is_active, created_at, updated_at
+ $1, $2
+) RETURNING id, name, description, created_at, updated_at
 `
 
 type CreateClusterParams struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
-	IsActive    bool   `json:"is_active"`
 }
 
 func (q *Queries) CreateCluster(ctx context.Context, arg CreateClusterParams) (Cluster, error) {
-	row := q.db.QueryRow(ctx, createCluster, arg.Name, arg.Description, arg.IsActive)
+	row := q.db.QueryRow(ctx, createCluster, arg.Name, arg.Description)
 	var i Cluster
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
 		&i.Description,
-		&i.IsActive,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 	)
@@ -43,7 +40,7 @@ func (q *Queries) CreateCluster(ctx context.Context, arg CreateClusterParams) (C
 }
 
 const getAllClusters = `-- name: GetAllClusters :many
-SELECT id, name, description, is_active, created_at, updated_at FROM clusters
+SELECT id, name, description, created_at, updated_at FROM clusters
 `
 
 func (q *Queries) GetAllClusters(ctx context.Context) ([]Cluster, error) {
@@ -59,39 +56,6 @@ func (q *Queries) GetAllClusters(ctx context.Context) ([]Cluster, error) {
 			&i.ID,
 			&i.Name,
 			&i.Description,
-			&i.IsActive,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getAllClustersActive = `-- name: GetAllClustersActive :many
-SELECT id, name, description, is_active, created_at, updated_at FROM clusters
-WHERE is_active = true
-`
-
-func (q *Queries) GetAllClustersActive(ctx context.Context) ([]Cluster, error) {
-	rows, err := q.db.Query(ctx, getAllClustersActive)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []Cluster{}
-	for rows.Next() {
-		var i Cluster
-		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.Description,
-			&i.IsActive,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 		); err != nil {
@@ -106,7 +70,7 @@ func (q *Queries) GetAllClustersActive(ctx context.Context) ([]Cluster, error) {
 }
 
 const getCluster = `-- name: GetCluster :one
-SELECT id, name, description, is_active, created_at, updated_at FROM clusters
+SELECT id, name, description, created_at, updated_at FROM clusters
 WHERE id = $1 LIMIT 1
 `
 
@@ -117,7 +81,6 @@ func (q *Queries) GetCluster(ctx context.Context, id uuid.UUID) (Cluster, error)
 		&i.ID,
 		&i.Name,
 		&i.Description,
-		&i.IsActive,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 	)
@@ -125,7 +88,7 @@ func (q *Queries) GetCluster(ctx context.Context, id uuid.UUID) (Cluster, error)
 }
 
 const getClusterByName = `-- name: GetClusterByName :one
-SELECT id, name, description, is_active, created_at, updated_at FROM clusters
+SELECT id, name, description, created_at, updated_at FROM clusters
 WHERE name = $1 LIMIT 1
 `
 
@@ -136,7 +99,6 @@ func (q *Queries) GetClusterByName(ctx context.Context, name string) (Cluster, e
 		&i.ID,
 		&i.Name,
 		&i.Description,
-		&i.IsActive,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 	)
@@ -147,33 +109,25 @@ const updateCluster = `-- name: UpdateCluster :one
 UPDATE clusters
 SET
   name = COALESCE($1, name),
-  description = COALESCE($2, description),
-  is_active = COALESCE($3, is_active)
+  description = COALESCE($2, description)
 WHERE
-  id = $4
-  RETURNING id, name, description, is_active, created_at, updated_at
+  id = $3
+  RETURNING id, name, description, created_at, updated_at
 `
 
 type UpdateClusterParams struct {
 	Name        pgtype.Text `json:"name"`
 	Description pgtype.Text `json:"description"`
-	IsActive    pgtype.Bool `json:"is_active"`
 	ID          uuid.UUID   `json:"id"`
 }
 
 func (q *Queries) UpdateCluster(ctx context.Context, arg UpdateClusterParams) (Cluster, error) {
-	row := q.db.QueryRow(ctx, updateCluster,
-		arg.Name,
-		arg.Description,
-		arg.IsActive,
-		arg.ID,
-	)
+	row := q.db.QueryRow(ctx, updateCluster, arg.Name, arg.Description, arg.ID)
 	var i Cluster
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
 		&i.Description,
-		&i.IsActive,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 	)

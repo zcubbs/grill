@@ -5,9 +5,8 @@ import (
 	"flag"
 	"fmt"
 	"github.com/go-co-op/gocron/v2"
-	"github.com/zcubbs/grill/cmd/agent/config"
-	"github.com/zcubbs/grill/cmd/agent/ctx"
-	pbAgent "github.com/zcubbs/grill/gen/proto/go/agent/v1"
+	"github.com/zcubbs/grill/cmd/smoke-agent/config"
+	"github.com/zcubbs/grill/cmd/smoke-agent/ctx"
 	"time"
 )
 
@@ -37,11 +36,6 @@ func main() {
 		Token: *token,
 	})
 
-	err := register(grpcCtx)
-	if err != nil {
-		panic("register failed: " + err.Error())
-	}
-
 	s, err := newScheduler(grpcCtx)
 	if err != nil {
 		panic("failed to create scheduler: " + err.Error())
@@ -50,22 +44,6 @@ func main() {
 	s.Start()
 
 	select {}
-}
-
-func register(grpcCtx *ctx.Ctx) error {
-	fmt.Println("registering agent...")
-
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	_, err := grpcCtx.GrpcClient.RegisterAgent(ctx, &pbAgent.RegisterAgentRequest{
-		Token: grpcCtx.Cfg.Token,
-	})
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
 
 func newScheduler(grpcCtx *ctx.Ctx) (gocron.Scheduler, error) {

@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 	db "github.com/zcubbs/grill/cmd/server/db/sqlc"
 	agentPb "github.com/zcubbs/grill/gen/proto/go/agent/v1"
 	grillPb "github.com/zcubbs/grill/gen/proto/go/grill/v1"
@@ -32,12 +33,16 @@ func convertPbToUser(user *userPb.User) db.User {
 }
 
 func convertAgentToPb(agent db.Agent) *agentPb.Agent {
+	version := ""
+	if agent.Version.Valid {
+		version = agent.Version.String
+	}
 	return &agentPb.Agent{
 		Id:             agent.ID.String(),
 		Name:           agent.Name,
 		IsActive:       agent.IsActive,
 		Token:          agent.Token,
-		Version:        agent.Version,
+		Version:        version,
 		CreatedAt:      timestamppb.New(agent.CreatedAt),
 		UpdatedAt:      timestamppb.New(agent.UpdatedAt),
 		LastConnection: timestamppb.New(agent.LastConnection.Time),
@@ -46,12 +51,16 @@ func convertAgentToPb(agent db.Agent) *agentPb.Agent {
 
 func convertPbToAgent(agent *agentPb.Agent) db.Agent {
 	id, _ := uuid.Parse(agent.Id)
+	version := pgtype.Text{
+		Valid:  agent.Version != "",
+		String: agent.Version,
+	}
 	return db.Agent{
 		ID:       id,
 		Name:     agent.Name,
 		Token:    agent.Token,
 		IsActive: agent.IsActive,
-		Version:  agent.Version,
+		Version:  version,
 	}
 }
 

@@ -9,29 +9,24 @@ import (
 	"context"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createAgent = `-- name: CreateAgent :one
 INSERT INTO agents
-(name,token,version,is_active)
-VALUES ($1, $2, $3, $4)
+(name,token,is_active)
+VALUES ($1, $2, $3)
 RETURNING id, name, token, is_active, version, created_at, updated_at, last_connection
 `
 
 type CreateAgentParams struct {
 	Name     string `json:"name"`
 	Token    string `json:"token"`
-	Version  string `json:"version"`
 	IsActive bool   `json:"is_active"`
 }
 
 func (q *Queries) CreateAgent(ctx context.Context, arg CreateAgentParams) (Agent, error) {
-	row := q.db.QueryRow(ctx, createAgent,
-		arg.Name,
-		arg.Token,
-		arg.Version,
-		arg.IsActive,
-	)
+	row := q.db.QueryRow(ctx, createAgent, arg.Name, arg.Token, arg.IsActive)
 	var i Agent
 	err := row.Scan(
 		&i.ID,
@@ -123,7 +118,7 @@ func (q *Queries) GetAllAgents(ctx context.Context) ([]Agent, error) {
 const updateAgentLastConnection = `-- name: UpdateAgentLastConnection :one
 UPDATE agents
 SET
-  version = $2,
+  version = COALESCE($2, version),
   last_connection = current_timestamp,
   updated_at = current_timestamp
 WHERE id = $1
@@ -131,8 +126,8 @@ RETURNING id, name, token, is_active, version, created_at, updated_at, last_conn
 `
 
 type UpdateAgentLastConnectionParams struct {
-	ID      uuid.UUID `json:"id"`
-	Version string    `json:"version"`
+	ID      uuid.UUID   `json:"id"`
+	Version pgtype.Text `json:"version"`
 }
 
 func (q *Queries) UpdateAgentLastConnection(ctx context.Context, arg UpdateAgentLastConnectionParams) (Agent, error) {

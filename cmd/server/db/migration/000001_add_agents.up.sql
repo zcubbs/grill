@@ -5,7 +5,7 @@ CREATE TABLE agents (
   "name" VARCHAR(255) UNIQUE NOT NULL,
   "token" TEXT UNIQUE NOT NULL,
   "is_active" BOOLEAN NOT NULL DEFAULT FALSE,
-  "version" VARCHAR(20) NOT NULL,
+  "version" VARCHAR(255),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT current_timestamp,
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT current_timestamp,
   "last_connection" TIMESTAMPTZ

@@ -1,10 +1,9 @@
 -- name: CreateCluster :one
 INSERT INTO clusters (
   name,
-  description,
-  is_active
+  description
 ) VALUES (
- $1, $2, $3
+ $1, $2
 ) RETURNING *;
 
 -- name: GetCluster :one
@@ -18,16 +17,11 @@ WHERE name = $1 LIMIT 1;
 -- name: GetAllClusters :many
 SELECT * FROM clusters;
 
--- name: GetAllClustersActive :many
-SELECT * FROM clusters
-WHERE is_active = true;
-
 -- name: UpdateCluster :one
 UPDATE clusters
 SET
   name = COALESCE(sqlc.narg(name), name),
-  description = COALESCE(sqlc.narg(description), description),
-  is_active = COALESCE(sqlc.narg(is_active), is_active)
+  description = COALESCE(sqlc.narg(description), description)
 WHERE
   id = sqlc.arg(id)
   RETURNING *;

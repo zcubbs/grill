@@ -21,7 +21,6 @@ type Querier interface {
 	GetAgentByToken(ctx context.Context, token string) (Agent, error)
 	GetAllAgents(ctx context.Context) ([]Agent, error)
 	GetAllClusters(ctx context.Context) ([]Cluster, error)
-	GetAllClustersActive(ctx context.Context) ([]Cluster, error)
 	GetAllNodes(ctx context.Context) ([]Node, error)
 	GetAllNodesActive(ctx context.Context) ([]Node, error)
 	GetAllUsers(ctx context.Context) ([]User, error)

@@ -1,7 +1,7 @@
 -- name: CreateAgent :one
 INSERT INTO agents
-(name,token,version,is_active)
-VALUES ($1, $2, $3, $4)
+(name,token,is_active)
+VALUES ($1, $2, $3)
 RETURNING *;
 
 -- name: GetAgent :one
@@ -17,7 +17,7 @@ ORDER BY name;
 -- name: UpdateAgentLastConnection :one
 UPDATE agents
 SET
-  version = $2,
+  version = COALESCE(sqlc.narg(version), version),
   last_connection = current_timestamp,
   updated_at = current_timestamp
 WHERE id = $1

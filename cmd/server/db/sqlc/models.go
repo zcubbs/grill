@@ -16,7 +16,7 @@ type Agent struct {
 	Name           string             `json:"name"`
 	Token          string             `json:"token"`
 	IsActive       bool               `json:"is_active"`
-	Version        string             `json:"version"`
+	Version        pgtype.Text        `json:"version"`
 	CreatedAt      time.Time          `json:"created_at"`
 	UpdatedAt      time.Time          `json:"updated_at"`
 	LastConnection pgtype.Timestamptz `json:"last_connection"`
@@ -26,7 +26,6 @@ type Cluster struct {
 	ID          uuid.UUID `json:"id"`
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
-	IsActive    bool      `json:"is_active"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }

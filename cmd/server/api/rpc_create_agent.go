@@ -26,8 +26,6 @@ func (s *Server) CreateAgent(ctx context.Context, req *agentPb.CreateAgentReques
 	params := db.CreateAgentParams{
 		Name:     req.GetName(),
 		Token:    random.RandomString(32),
-		Group:    req.GetGroup(),
-		Scopes:   "all",
 		IsActive: req.GetIsActive(),
 	}
 
